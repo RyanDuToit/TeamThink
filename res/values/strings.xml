@@ -4,5 +4,8 @@
     <string name="app_name">TeamThink</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="user_name">Email</string>
+    <string name="password">Password</string>
+    <string name="title_activity_note">NoteActivity</string>
 
 </resources>

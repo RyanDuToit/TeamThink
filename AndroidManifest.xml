@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="edu.drake.teamthink.NoteActivity"
+            android:label="@string/title_activity_note" >
+        </activity>
     </application>
 
 </manifest>
