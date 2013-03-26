@@ -30,7 +30,6 @@ public class LoginActivity extends Activity {
 		EditText passwordText = (EditText) findViewById(R.id.passwordField);
 		String email = emailText.getText().toString();
 		String password = passwordText.getText().toString();
-		
 		if (validateEmail(email)) {
 			if (DBMethods.checkLogin(email,password)) {
 				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
