@@ -6,6 +6,8 @@ public class Note {
 	private String text;
 	private String author;
 	private Date creationDate;
+	private Date sessionDate;
+	private int upVotes;
 	
 	public String getText() {
 		return text;
@@ -25,6 +27,19 @@ public class Note {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+	public Date getSessionDate() {
+		return sessionDate;
+	}
+	public void setSessionDate(Date sessionDate) {
+		this.sessionDate = sessionDate;
+	}
+	public int getUpVotes() {
+		return upVotes;
+	}
+	public void setUpVotes(int upVotes) {
+		this.upVotes = upVotes;
+	}
+
 
 
 
