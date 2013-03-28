@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import edu.drake.teamthink.db.DBMethods;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -43,7 +44,12 @@ public class LoginActivity extends Activity {
 			}
 		}
 		else {
-			//TODO - error screen for bad email (popup)?
+			Context context = getApplicationContext();
+			CharSequence text = "Invalid Email Address";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		}
 
 
