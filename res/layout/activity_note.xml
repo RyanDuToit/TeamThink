@@ -1,25 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".NoteActivity" >
 
     <fragment
         android:id="@+id/fragment1"
         android:name="edu.drake.teamthink.NoteListFragment"
-        android:layout_width="wrap_content"
+        android:layout_width="369dp"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/View01"
+        android:layout_width="2dip"
+        android:layout_height="wrap_content"
+        android:background="#2B497B" />
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="edu.drake.teamthink.NoteDetailFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="248dp"
-        android:text="@string/hello_world" />
-
-</RelativeLayout>
+</LinearLayout>
