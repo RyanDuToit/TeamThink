@@ -4,56 +4,40 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <Button
+        android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="53dp"
-        android:layout_marginTop="92dp"
-        android:text="@string/user_name" />
-
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_marginLeft="68dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:ems="10"
-        android:inputType="textEmailAddress" >
-
-        <requestFocus />
-    </EditText>
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/emailField"
-        android:layout_marginTop="123dp"
-        android:text="@string/password" />
+        android:layout_below="@+id/passwordField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="67dp"
+        android:onClick="submit"
+        android:text="Submit" />
 
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/TextView01"
-        android:layout_alignLeft="@+id/emailField"
+        android:layout_below="@+id/emailField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="77dp"
         android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/submitButton"
+    <EditText
+        android:id="@+id/emailField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/passwordField"
-        android:layout_below="@+id/passwordField"
-        android:layout_marginLeft="58dp"
-        android:layout_marginTop="67dp"
-        android:text="Submit"
-        android:onClick="submit" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="108dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
