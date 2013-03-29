@@ -24,33 +24,26 @@ public class NoteListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedState) {
 		super.onActivityCreated(savedState);
-		if(savedState!=null) {
+		if(savedState!=null) { //if nothing selected already, just choose top note
 			index = savedState.getInt("index",0);
 		}
 		
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
 		
-		ArrayList<Note> myList = DBMethods.getNotes();
+		ArrayList<Note> myList = DBMethods.getNotes(); //get all notes in an array list
 		
-		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(),  android.R.layout.simple_list_item_1,myList);
-		setListAdapter(myAA);
-		setListShown(true);
-		showDetails(index);
+		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(),  android.R.layout.simple_list_item_1,myList);  //create an array adapter (this thing interfaces with the listview)
+		setListAdapter(myAA); //set list adapter to our array adapter
+		setListShown(true); //show the list
+		showDetails(index); //call showdetails of the selected index
 	}
-
-	/*@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_notelist,
-				container, false);
-		return view;
-	}*/
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		showDetails(pos);
 	}
 	public void showDetails(int index) {
+		//TODO - impliment this method so the note shows on the notedetail fragment
 	}
 
 
