@@ -28,26 +28,27 @@ public class LoginActivity extends Activity {
 	}
 
 	public void submit(View view) {
-	    // Do something in response to button
-		System.out.println("in submit");
-		EditText emailText = (EditText) findViewById(R.id.emailField);
+		EditText emailText = (EditText) findViewById(R.id.emailField); //grab email and pwd
 		EditText passwordText = (EditText) findViewById(R.id.passwordField);
 		String email = emailText.getText().toString();
 		String password = passwordText.getText().toString();
-		if (validateEmail(email)) {
-			if (DBMethods.checkLogin(email,password)) {
+		if (validateEmail(email)) { //check if email is good
+			if (DBMethods.checkLogin(email,password)) { //see if login was correct
 				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
 				startActivity(intent);
 			}
 			else{
-				//TODO - login failure error
+				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
+				CharSequence text = "Invalid Email or Password";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
 			}
 		}
-		else {
+		else { //use toast to notify user of bad email address
 			Context context = getApplicationContext();
 			CharSequence text = "Invalid Email Address";
 			int duration = Toast.LENGTH_SHORT;
-
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
 		}
@@ -56,7 +57,6 @@ public class LoginActivity extends Activity {
 	}
 
 	private boolean validateEmail(String email) {
-		// TODO Validate the email (blahblahblahblah@foo.bar)
 		Pattern emailPattern = Pattern.compile("\\b(^[_A-Za-z0-9-]+" +
 				"(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])" +
 				"+((\\.com)|(\\.net)|(\\.org)|(\\.info)|(\\.edu)|(\\.mil)|" +
