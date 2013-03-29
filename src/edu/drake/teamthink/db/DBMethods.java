@@ -12,10 +12,34 @@ public class DBMethods {
 	}
 	public static ArrayList<Note> getNotes(Date session) { //return notes from a session
 		ArrayList<Note> notes = new ArrayList<Note>(); 
+		//dummy note (should pull from db later
+		Note newNote = new Note();
+		newNote.setAuthor("a person");
+		Date creationDate = new Date();
+		newNote.setCreationDate(creationDate);
+		newNote.setText("hello, I am a person writing a random note, I hope you enjoy reading this note that I wrote");
+		newNote.setSessionDate(session);
+		newNote.setUpVotes(42);
+		
+		for(int i=0;i<10;i++)
+			notes.add(newNote);
+		
 		return notes;
 	}
 	public static ArrayList<Note> getNotes() { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
+		//dummy note (should pull from db later
+		Note newNote = new Note();
+		newNote.setAuthor("a person");
+		Date creationDate = new Date();
+		newNote.setCreationDate(creationDate);
+		newNote.setText("hello, I am a person writing a random note, I hope you enjoy reading this note that I wrote");
+		newNote.setSessionDate(creationDate);
+		newNote.setUpVotes(42);
+		
+		for(int i=0;i<30;i++)
+			notes.add(newNote);
+		
 		return notes;
 	}
 	public static void createNote() {

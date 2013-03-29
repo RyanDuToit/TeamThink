@@ -30,49 +30,9 @@ public class NoteListFragment extends ListFragment {
 		
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
-		ArrayList<String> myList = new ArrayList<String>();
+		ArrayList<Note> myList = DBMethods.getNotes();
 		
-		//dummy list
-		myList.add("hashtag");
-		myList.add("yolo");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("hashtag");
-		myList.add("yolo");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("hashtag");
-		myList.add("yolo");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("hashtag");
-		myList.add("yolo");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		myList.add("lol");
-		
-		ArrayAdapter<String> myAA = new ArrayAdapter<String>(this.getListView().getContext(),  android.R.layout.simple_list_item_1,myList);
+		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(),  android.R.layout.simple_list_item_1,myList);
 		setListAdapter(myAA);
 		setListShown(true);
 		showDetails(index);

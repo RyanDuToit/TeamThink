@@ -40,7 +40,11 @@ public class Note {
 		this.upVotes = upVotes;
 	}
 
-
+	public String toString() {
+		String result;
+		result = text;
+		return result;
+	}
 
 
 }
