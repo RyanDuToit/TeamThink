@@ -4,12 +4,38 @@
     android:layout_height="match_parent"
     android:padding="8dp"
     tools:context=".NoteActivity" >
-	
-    <fragment
-        android:id="@+id/list_fragment"
-        android:name="edu.drake.teamthink.frags.NoteListFragment"
+
+    <LinearLayout
         android:layout_width="369dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="refresh" >
+            </Button>
+
+            <Button
+                android:id="@+id/newNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+" >
+            </Button>
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/list_fragment"
+            android:name="edu.drake.teamthink.frags.NoteListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <fragment
         android:id="@+id/detail_fragment"
