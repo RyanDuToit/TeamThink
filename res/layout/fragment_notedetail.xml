@@ -4,4 +4,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/note_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="32sp" />
+        <!-- android:text="Sven Sigurdson" -->
+        
+
+    <TextView
+        android:id="@+id/note_post_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:paddingLeft="50dp"
+        android:textSize="14sp" />
+        <!-- android:text="on April 2nd, 2013, at 9:32am" -->
+        
+
+    <TextView
+        android:id="@+id/note_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="20dp"
+        android:paddingRight="10dp"
+        android:textSize="16sp" />
+	    <!-- android:text="Here is the content of the note, isn't it just lovely?"  -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+		android:layout_marginLeft="10dp" >
+		
+        <TextView
+            android:id="@+id/note_upvote_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="14sp" />
+        	<!-- android:text="12 Upvotes" -->
+
+        <Button
+            android:id="@+id/note_vote_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upvote_button" />
+        
+    </LinearLayout>
+
 </LinearLayout>

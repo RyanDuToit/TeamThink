@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity" >
-
+	<!-- TODO: Modify so that everything is in view when the keyboard is also on screen -->
+	
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
@@ -13,7 +14,7 @@
         android:layout_marginLeft="58dp"
         android:layout_marginTop="67dp"
         android:onClick="submit"
-        android:text="Submit" />
+        android:text="@string/login_button" />
 
     <EditText
         android:id="@+id/passwordField"
@@ -23,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="77dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <EditText
@@ -34,7 +35,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="108dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/user_name"
         android:inputType="textEmailAddress" >
 
         <requestFocus />
