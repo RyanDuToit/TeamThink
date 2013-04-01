@@ -1,8 +1,10 @@
 package edu.drake.teamthink;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import edu.drake.teamthink.frags.*;
 
 public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener {
@@ -32,4 +34,8 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		}
 	}
 
+	public void addNote(View view) {
+		Intent intent = new Intent(view.getContext(), NewNoteActivity.class); //when clicked, pull up an instance of the note screen activity
+		startActivity(intent);
+	}
 }

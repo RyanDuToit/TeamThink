@@ -9,5 +9,6 @@
     <string name="title_activity_note">NoteActivity</string>
     <string name="upvote_button">Upvote</string>
     <string name="login_button">Login</string>
+    <string name="title_activity_new_note">NewNoteActivity</string>
 
 </resources>
