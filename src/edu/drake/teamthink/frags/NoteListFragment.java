@@ -17,10 +17,10 @@ public class NoteListFragment extends ListFragment {
 	OnNoteSelectedListener callback; // this basically lets the fragment communicate to the other fragment THROUGH the parent activity
 
 	int index = 0;
-
+	ArrayList<Note> notes;
 	public interface OnNoteSelectedListener {
 		/** Called by NoteListFragment when a list item is selected (see NoteActivity) */
-		public void onNoteSelected(int position);
+		public void onNoteSelected(Note note);
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class NoteListFragment extends ListFragment {
 			index = savedState.getInt("index", 0);
 		}
 
-		ArrayList<Note> myList = DBMethods.getNotes(); //get all notes in an array list
+	    notes = DBMethods.getNotes(); //get all notes in an array list
 		// BYRON: changed from simple_list_item_1 to simple_list_item_activated_1 to enable highlighting of the selected note (in the list)
-		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, myList);  //create an array adapter (this thing interfaces with the listview)
+		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
 		setListAdapter(myAA); //set list adapter to our array adapter
 		setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
 	}
@@ -62,7 +62,7 @@ public class NoteListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		// notify the parent activity of the selected item, essentially starts the update process
-		callback.onNoteSelected(pos);
+		callback.onNoteSelected(notes.get(pos));
 
 		// highlight the selected item in the ListView
 		getListView().setItemChecked(pos, true);

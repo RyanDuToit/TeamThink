@@ -20,7 +20,7 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		return true;
 	}
 	
-	public void onNoteSelected(int position) {
+	public void onNoteSelected(Note note) {
 		/** The user selected a note in the NoteListFragment list (this is why we "implements NLF.OnNoteSelectedListener) */
 		
 		// capture the detail fragment from the activity layout
@@ -28,7 +28,7 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		
 		// Call updateDetail method in NoteDetailFragment to update the content
 		if (detail != null) {
-			detail.updateDetail(position);
+			detail.updateDetail(note);
 		}
 	}
 
