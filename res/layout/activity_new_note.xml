@@ -4,11 +4,19 @@
     android:layout_height="match_parent"
     tools:context=".NewNoteActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
+    <EditText
+        android:id="@+id/note_input_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:singleLine="false" 
+        android:gravity="top|left">
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
