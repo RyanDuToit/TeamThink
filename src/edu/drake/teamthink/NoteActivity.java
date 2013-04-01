@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import edu.drake.teamthink.frags.NoteDetailFragment;
 import edu.drake.teamthink.frags.NoteListFragment;
 
 public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener {
-	
+	boolean initdone = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,11 +20,40 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.sort_list, android.R.layout.simple_spinner_item);
+				R.array.sort_list, android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
+
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				if(initdone) {
+					NoteListFragment list = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+					switch (position) {
+					case 0:
+						list.SortList(true);
+						break;
+					case 1:
+						list.SortList(false);
+						break;
+					default:
+						break;
+					}
+				}
+				else {
+					initdone = true;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+				return;
+			}
+
+		});
+
 	}
 
 	@Override
@@ -32,13 +62,13 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		getMenuInflater().inflate(R.menu.activity_note, menu);
 		return true;
 	}
-	
+
 	public void onNoteSelected(Note note) {
 		/** The user selected a note in the NoteListFragment list (this is why we "implements NLF.OnNoteSelectedListener) */
-		
+
 		// capture the detail fragment from the activity layout
 		NoteDetailFragment detail = (NoteDetailFragment) getFragmentManager().findFragmentById(R.id.detail_fragment);
-		
+
 		// Call updateDetail method in NoteDetailFragment to update the content
 		if (detail != null) {
 			detail.updateDetail(note);

@@ -35,10 +35,11 @@ public class DBMethods {
 			Note newNote = new Note();
 			newNote.setAuthor("Person #" + i);
 			Date creationDate = new Date();
+			creationDate.setYear(creationDate.getYear()+i);
 			newNote.setCreationDate(creationDate);
 			newNote.setText("Note " + i + " -- In 1554, Belgian monks worked tirelessly to develop a new, heavenly brew...");
 			newNote.setSessionDate(creationDate);
-			newNote.setUpVotes(42);
+			newNote.setUpVotes(30-i);
 			
 			notes.add(newNote);
 		}

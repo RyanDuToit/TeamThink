@@ -38,7 +38,7 @@ public class NoteListFragment extends ListFragment {
 		// BYRON: changed from simple_list_item_1 to simple_list_item_activated_1 to enable highlighting of the selected note (in the list)
 		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
 		
-		//TODO-Sort by Date
+		Collections.sort(notes, new NoteCompareDate()); //sort array by date
 		
 		setListAdapter(myAA); //set list adapter to our array adapter
 		setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
@@ -88,6 +88,9 @@ public class NoteListFragment extends ListFragment {
 			Collections.sort(notes, new NoteCompareDate());
 		else
 			Collections.sort(notes, new NoteCompareVotes());
+		
+		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
+		setListAdapter(myAA); //set list adapter to our array adapter
 	}
 
 	@Override
