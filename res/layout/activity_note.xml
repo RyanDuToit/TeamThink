@@ -29,6 +29,13 @@
                 android:text="+" 
                 android:onClick="addNote">
             </Button>
+
+            <Spinner
+                android:id="@+id/sort_spinner"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
         <fragment
