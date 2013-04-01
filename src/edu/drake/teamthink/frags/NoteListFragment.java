@@ -1,5 +1,6 @@
 package edu.drake.teamthink.frags;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import edu.drake.teamthink.Note;
+import edu.drake.teamthink.NoteCompareDate;
+import edu.drake.teamthink.NoteCompareVotes;
 import edu.drake.teamthink.R;
 import edu.drake.teamthink.db.DBMethods;
 
@@ -18,6 +21,7 @@ public class NoteListFragment extends ListFragment {
 
 	int index = 0;
 	ArrayList<Note> notes;
+	
 	public interface OnNoteSelectedListener {
 		/** Called by NoteListFragment when a list item is selected (see NoteActivity) */
 		public void onNoteSelected(Note note);
@@ -33,6 +37,9 @@ public class NoteListFragment extends ListFragment {
 	    notes = DBMethods.getNotes(); //get all notes in an array list
 		// BYRON: changed from simple_list_item_1 to simple_list_item_activated_1 to enable highlighting of the selected note (in the list)
 		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
+		
+		//TODO-Sort by Date
+		
 		setListAdapter(myAA); //set list adapter to our array adapter
 		setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
 	}
@@ -76,6 +83,12 @@ public class NoteListFragment extends ListFragment {
 		//			(by way of the OnNoteSelectedListener in NoteListFrag and the NoteActivity)
 	}
 
+	public void SortList(boolean sortByDate) { //if true, sort by Date, if false sort by votes
+		if(sortByDate)
+			Collections.sort(notes, new NoteCompareDate());
+		else
+			Collections.sort(notes, new NoteCompareVotes());
+	}
 
 	@Override
 	public void onDetach() {
