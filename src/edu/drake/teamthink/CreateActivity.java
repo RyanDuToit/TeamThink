@@ -50,7 +50,7 @@ public class CreateActivity extends Activity {
 		String password2 = password2Text.getText().toString();
 		String firstName = FirstNameText.getText().toString();
 		String lastName = LastNameText.getText().toString();
-		if (validateEmail(email)) { //check if email is good
+		if (DBMethods.validateEmail(email)) { //check if email is good
 			if (password.equals(password2)) { //see if the passwords supplied match
 				DBMethods.addUser(email);
 				this.finish();
@@ -70,19 +70,6 @@ public class CreateActivity extends Activity {
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
 		}
-	}
-
-	private boolean validateEmail(String email) {
-		// BYRON: modified to speed up debugging...
-		return true;
-		/* Pattern emailPattern = Pattern.compile("\\b(^[_A-Za-z0-9-]+" +
-				"(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-])" +
-				"+((\\.com)|(\\.net)|(\\.org)|(\\.info)|(\\.edu)|(\\.mil)|" +
-				"(\\.gov)|(\\.biz)|(\\.ws)|(\\.us)|(\\.tv)|(\\.cc)|(\\.aero)|" +
-				"(\\.arpa)|(\\.coop)|(\\.int)|(\\.jobs)|(\\.museum)|(\\.name)|" +
-				"(\\.pro)|(\\.travel)|(\\.nato)|(\\..{2,3})|(\\..{2,3}\\..{2,3}))$)\\b"); //regular expression for email address http://struts.apache.org/release/2.0.x/struts2-core/apidocs/com/opensymphony/xwork2/validator/validators/EmailValidator.html
-		Matcher m = emailPattern.matcher(email); //try to match pattern to email
-		return m.matches(); //if it matches, return true */
 	}
 
 }
