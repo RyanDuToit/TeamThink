@@ -4,16 +4,12 @@ package edu.drake.teamthink;
 import java.util.Date;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
-import edu.drake.teamthink.frags.NoteDetailFragment;
-import edu.drake.teamthink.frags.NoteListFragment;
+import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
 
@@ -56,6 +52,11 @@ public class NewNoteActivity extends Activity {
 		myNote.setCreationDate(myDate);
 		myNote.setSessionDate(myDate);
 		myNote.setUpVotes(0);
+		Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
+		CharSequence toastText = "Good thinking!";
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(context, toastText, duration);
+		toast.show();
 		this.finish();
 		return true;
 	}

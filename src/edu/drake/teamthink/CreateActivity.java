@@ -53,8 +53,7 @@ public class CreateActivity extends Activity {
 		if (validateEmail(email)) { //check if email is good
 			if (password.equals(password2)) { //see if the passwords supplied match
 				DBMethods.addUser(email);
-				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
-				startActivity(intent);
+				this.finish();
 			}
 			else{
 				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
