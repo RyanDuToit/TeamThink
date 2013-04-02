@@ -10,5 +10,8 @@
     <string name="upvote_button">Upvote</string>
     <string name="login_button">Login</string>
     <string name="title_activity_new_note">NewNoteActivity</string>
+    <string name="first_name">First Name</string>
+    <string name="register">Register</string>
+    <string name="last_name">Last Name</string>
 
 </resources>

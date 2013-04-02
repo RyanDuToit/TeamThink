@@ -63,4 +63,7 @@ public class DBMethods {
 		Note myNote = null;
 		return myNote;
 	}
+	public static void addUser(String s){
+	
+	}
 }
