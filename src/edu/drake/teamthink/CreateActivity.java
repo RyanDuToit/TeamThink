@@ -1,25 +1,13 @@
 package edu.drake.teamthink;
 
-import edu.drake.teamthink.db.DBMethods;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+import edu.drake.teamthink.db.DBMethods;
 
 /**
  * Activity which displays a login screen to the user, offering registration as

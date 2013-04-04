@@ -6,10 +6,10 @@
     <string name="menu_settings">Settings</string>
     <string name="user_name">Email</string>
     <string name="password">Password</string>
-    <string name="title_activity_note">NoteActivity</string>
+    <string name="title_activity_note">This session\'s notes</string>
     <string name="upvote_button">Upvote</string>
     <string name="login_button">Login</string>
-    <string name="title_activity_new_note">NewNoteActivity</string>
+    <string name="title_activity_new_note">Think a new thought!</string>
     <string name="first_name">First Name</string>
     <string name="register">Register</string>
     <string name="last_name">Last Name</string>

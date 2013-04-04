@@ -6,29 +6,33 @@
     tools:context=".NoteActivity" >
 
     <LinearLayout
+        android:background="@color/list_grey"
         android:layout_width="369dp"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <LinearLayout
+            android:background="@color/header_grey"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="40dp"
             android:orientation="horizontal" >
 
-            <Button
+            <ImageButton
                 android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="r" >
-            </Button>
+                android:src="@drawable/icon_refresh" 
+                android:contentDescription="Refresh" >
+            </ImageButton>
 
-            <Button
+            <ImageButton
                 android:id="@+id/new_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+" 
+                android:src="@drawable/icon_newnote"
+                android:contentDescription="Add a new note" 
                 android:onClick="addNote">
-            </Button>
+            </ImageButton>
 
             <Spinner
                 android:id="@+id/sort_spinner"
