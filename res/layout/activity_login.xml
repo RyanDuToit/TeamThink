@@ -1,55 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginFormContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity" >
-	<!-- TODO: Modify so that everything is in view when the keyboard is also on screen -->
-	
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passwordField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="58dp"
-        android:layout_marginTop="67dp"
-        android:onClick="submit"
-        android:text="@string/login_button" />
 
-    <EditText
-        android:id="@+id/passwordField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emailField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword" />
+    <LinearLayout
+        style="@style/LoginFormContainer"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/passwordField"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="108dp"
-        android:ems="10"
-        android:hint="@string/user_name"
-        android:inputType="textEmailAddress" >
+        <TextView
+            android:id="@+id/loginTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textSize="48sp" >
+        </TextView>
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/emailField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:inputType="textEmailAddress" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="register"
-        android:text="@string/register" />
+        <EditText
+            android:id="@+id/passwordField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="submit"
+            android:text="@string/login_button" />
+    </LinearLayout>
+
+</ScrollView>

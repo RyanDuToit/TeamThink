@@ -23,26 +23,26 @@ public class NewNoteActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_new_note, menu);
-		
-		 MenuItem item = menu.findItem(R.id.save);
 
-		    if (item == null)
-		        return true;
+		MenuItem item = menu.findItem(R.id.save);
 
-		    item.setOnMenuItemClickListener
-		    (
-		        new MenuItem.OnMenuItemClickListener () 
-		        { 
-		            public boolean onMenuItemClick(MenuItem item) 
-		            { return (saveClicked(item)); }
-		        } 
-		    ); 
-		    
+		if (item == null)
+			return true;
+
+		item.setOnMenuItemClickListener
+		(
+				new MenuItem.OnMenuItemClickListener () 
+				{ 
+					public boolean onMenuItemClick(MenuItem item) 
+					{ return (saveClicked(item)); }
+				} 
+		); 
+
 		return true;
 	}
-	
-	
-	
+
+
+
 	public boolean saveClicked(MenuItem item) {
 		EditText text =  (EditText) findViewById(R.id.note_input_text);
 		Note myNote = new Note();

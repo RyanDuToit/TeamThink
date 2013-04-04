@@ -1,16 +1,15 @@
 package edu.drake.teamthink;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import edu.drake.teamthink.db.DBMethods;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.Toast;
+import edu.drake.teamthink.db.DBMethods;
 
 public class LoginActivity extends Activity {
 
@@ -25,6 +24,20 @@ public class LoginActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_login, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch(item.getItemId()) {
+	    case R.id.register:
+	        Intent intent = new Intent(this, CreateActivity.class);
+	        this.startActivity(intent);
+	        break;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+
+	    return true;
 	}
 
 	public void submit(View view) {
@@ -53,10 +66,4 @@ public class LoginActivity extends Activity {
 			toast.show();
 		}
 	}
-	public void register(View view)
-	{
-		Intent intent = new Intent(view.getContext(), CreateActivity.class); //When clicked, the "register" button pulls up an instance of the Create Account activity
-		startActivity(intent);
-	}
-
 }
