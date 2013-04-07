@@ -1,6 +1,5 @@
 package edu.drake.teamthink.frags;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -66,12 +65,12 @@ public class NoteDetailFragment extends Fragment {
 		TextView noteContent = (TextView) getActivity().findViewById(R.id.note_content);
 		TextView noteUpvotes = (TextView) getActivity().findViewById(R.id.note_upvote_count);
 
-
+		SimpleDateFormat fmt = new SimpleDateFormat ("E, MMM d, yyyy 'at' h:mm a");
 		
 		// with that array of notes, update the Views in our NoteDetailFragment
 		noteAuthor.setText(note.getAuthor());
 		noteContent.setText(note.getText());		
-		notePostDate.setText("on " + note.getCreationDate()); // TODO: format the date
+		notePostDate.setText(fmt.format(note.getCreationDate())); // TODO: format the date
 		noteUpvotes.setText(note.getUpVotes() + " Upvotes");
 		
 		currentNote = note;
