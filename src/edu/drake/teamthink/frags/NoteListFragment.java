@@ -12,6 +12,7 @@ import com.jcraft.jsch.SftpException;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ public class NoteListFragment extends ListFragment {
 	int index = 0;
 	ArrayList<Note> notes;
 	private ListView listView;
+	Context context;
 
 	public interface OnNoteSelectedListener {
 		/** Called by NoteListFragment when a list item is selected (see NoteActivity) */
@@ -41,7 +43,7 @@ public class NoteListFragment extends ListFragment {
 			index = savedState.getInt("index", 0);
 		}
 		listView=this.getListView();
-
+		context = listView.getContext();
 		DownloadNotes downloader = new DownloadNotes();
 		downloader.execute(1);
 
@@ -109,7 +111,7 @@ public class NoteListFragment extends ListFragment {
 			ArrayList<Note> result = new ArrayList<Note>();
 
 			try {
-				notes = DBMethods.getNotes();
+				notes = DBMethods.getNotes(context);
 			} catch (Exception e) {
 				System.out.println( "Unable to retrieve web page. URL may be invalid.");
 				e.printStackTrace();

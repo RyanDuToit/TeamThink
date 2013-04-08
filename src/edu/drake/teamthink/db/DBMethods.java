@@ -3,14 +3,20 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.jcraft.jsch.*;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.Vector;
 
 import edu.drake.teamthink.*;
 public class DBMethods {
@@ -52,7 +58,7 @@ public class DBMethods {
 
 		return notes;
 	}
-	public static ArrayList<Note> getNotes() { //return all notes
+	public static ArrayList<Note> getNotes(Context context) throws IOException { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
 		//dummy note (should pull from db later)
 
@@ -71,18 +77,88 @@ public class DBMethods {
 			channel.connect();
 			ChannelSftp c=(ChannelSftp)channel;
 
-			Note newNote = new Note();
-			newNote.setAuthor("hey");
 			try {
-				newNote.setText(c.pwd());
+				c.cd("TeamThink");
+				Vector<LsEntry> notedirs = c.ls(".");
+				System.out.println(notedirs.size());
+				for(int i = 2; i < notedirs.size(); i++) {
+					Note newNote = new Note();
+					System.out.println(i);
+	                c.cd(notedirs.get(i).getFilename());
+					System.out.println(c.pwd());
+	                
+					String textFilePath = context.getFilesDir().getPath().toString() + "/textin.txt";
+					File textFile = new File(textFilePath);
+					textFile.createNewFile();
+					FileOutputStream fos = new FileOutputStream(textFile);
+					c.get("text.txt", fos);
+					fos.close();
+					FileInputStream fis = new FileInputStream(textFile);
+					Scanner scan = new Scanner(fis);
+					String text = "";
+					while(scan.hasNext()) {
+						text+=scan.next()+" ";
+					}
+					newNote.setText(text);
+					System.out.println(text);
+					
+					String authorFilePath = context.getFilesDir().getPath().toString() + "/authorin.txt";
+					File authorFile = new File(authorFilePath);
+					authorFile.createNewFile();
+					FileOutputStream fos2 = new FileOutputStream(authorFile);
+					c.get("author.txt", fos2);
+					fos2.close();
+					FileInputStream fis2 = new FileInputStream(authorFile);
+					Scanner scan2 = new Scanner(fis2);
+					String author = "";
+					while(scan2.hasNext()) {
+						author+=scan2.next();
+					}
+					newNote.setAuthor(author);
+					
+					
+					String upFilePath = context.getFilesDir().getPath().toString() + "/upvotesin.txt";
+					File upFile = new File(upFilePath);
+					upFile.createNewFile();
+					FileOutputStream fos3 = new FileOutputStream(upFile);
+					c.get("upVotes.txt", fos3);
+					fos3.close();
+					FileInputStream fis3 = new FileInputStream(upFile);
+					Scanner scan3 = new Scanner(fis3);
+					int upVotes = 0;
+					//while(scan3.hasNext()) {
+						//upVotes=scan3.nextInt();
+					//}  //TODO-something wrong with upvotes
+					newNote.setUpVotes(upVotes);
+					
+					
+					
+					String meetingFilePath = context.getFilesDir().getPath().toString() + "/meetingin.txt";
+					File meetingFile = new File(meetingFilePath);
+					meetingFile.createNewFile();
+					FileOutputStream fos4 = new FileOutputStream(meetingFile);
+					c.get("session.txt", fos4);
+					fos.close();
+					FileInputStream fis4 = new FileInputStream(meetingFile);
+					Scanner scan4 = new Scanner(fis4);
+					String meeting = "";
+					while(scan4.hasNext()) {
+						meeting+=scan4.next();
+					}
+					newNote.setSessionDate(new Date()); //TODO-Fix this
+					
+					
+					String Date = notedirs.get(i).getFilename();
+					newNote.setCreationDate(new Date()); //TODO -Fix this
+					notes.add(newNote);
+					c.cd("..");
+					System.out.println(c.pwd());
+				}
 			} catch (SftpException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			newNote.setCreationDate(new Date());
-			newNote.setUpVotes(1);
-			newNote.setSessionDate(new Date());
-			notes.add(newNote);
+			
 
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
@@ -110,7 +186,7 @@ public class DBMethods {
 			notes.add(newNote);
 		}*/
 
-
+		//System.out.println(notes.get(0).getText());
 		return notes;
 	}
 	public static void createNote(Note myNote, Context context) {
@@ -130,8 +206,9 @@ public class DBMethods {
 			try {
 				c.cd("TeamThink");
 				Date rightNow = myNote.getCreationDate();
-				c.mkdir(rightNow.toString());
-				c.cd(rightNow.toString());
+				String rightNowString = rightNow.toString().replace(" ", "_"); 
+				c.mkdir(rightNowString);
+				c.cd(rightNowString);
 				try { 
 					String textFilePath = context.getFilesDir().getPath().toString() + "/text.txt";
 					File textFile = new File(textFilePath);
