@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import edu.drake.teamthink.Note;
 import edu.drake.teamthink.R;
@@ -14,6 +16,7 @@ import edu.drake.teamthink.R;
 public class NoteDetailFragment extends Fragment {
 	//final static String ARG_NOTE = "position";
 	Note currentNote;
+	ImageButton voteButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,12 +25,20 @@ public class NoteDetailFragment extends Fragment {
 		//if (savedInstanceState != null) {
 		//	currentNote = savedInstanceState.getNote(ARG_POSITION);
 		//}
+		
 		return inflater.inflate(R.layout.fragment_notedetail, container, false);
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		voteButton = (ImageButton) getActivity().findViewById(R.id.note_vote_button);
+		voteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onVoteButtonClick(currentNote);
+			}
+		});
 		/*
 		// At startup, we should check for arguments passed to the fragment
 		Bundle args = getArguments();
@@ -76,7 +87,9 @@ public class NoteDetailFragment extends Fragment {
 		currentNote = note;
 	}
 	
-	public void onVoteButtonClick(int position) {
+	public void onVoteButtonClick(Note note) {
 		// TODO: implement what happens when they click the upvote button (part of this Fragment)
+		voteButton.setImageDrawable(getResources().getDrawable(R.drawable.voting_state_lit));
+		voteButton.setClickable(false);
 	}
 }

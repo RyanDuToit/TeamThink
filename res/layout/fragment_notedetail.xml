@@ -49,12 +49,13 @@
             android:textSize="14sp" />
         	<!-- android:text="12 Upvotes" -->
 
-        <Button
+        <ImageButton
             android:id="@+id/note_vote_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/upvote_button" />
+            android:src="@drawable/voting_state_gray"
+            android:contentDescription="Good thought" />
         
     </LinearLayout>
 
