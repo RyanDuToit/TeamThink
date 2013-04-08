@@ -4,19 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import edu.drake.teamthink.frags.SessionListFragment;
 import edu.drake.teamthink.frags.NoteDetailFragment;
 import edu.drake.teamthink.frags.NoteListFragment;
 
-public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener {
+public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener, SessionListFragment.OnSessionSelectedListener {
 	boolean initdone = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note);
+		
 		Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -62,6 +65,23 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		getMenuInflater().inflate(R.menu.activity_note, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch(item.getItemId()) {
+	    case R.id.new_note:
+	        Intent intent = new Intent(this, NewNoteActivity.class);
+	        this.startActivity(intent);
+	        break;
+	    case R.id.refresh:
+	        // refresh from DB
+	        break;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+
+	    return true;
+	}
 
 	public void onNoteSelected(Note note) {
 		/** The user selected a note in the NoteListFragment list (this is why we "implements NLF.OnNoteSelectedListener) */
@@ -75,8 +95,14 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		}
 	}
 
+	public void onSessionSelected(Session session) {
+		// TODO use fragment manager to replace detail view with a note list
+		
+	}
+	
 	public void addNote(View view) {
 		Intent intent = new Intent(view.getContext(), NewNoteActivity.class); //when clicked, pull up an instance of the note screen activity
 		startActivity(intent);
 	}
+
 }

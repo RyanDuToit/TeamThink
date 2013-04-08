@@ -67,8 +67,22 @@ public class DBMethods {
 		
 	}
 	
-	public static ArrayList<Date> getCourseSessions() {
-		ArrayList<Date> sessions = new ArrayList<Date>();
+	public static ArrayList<Session> getSessions() {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+		
+		// dummy sessions
+		for (int i=0;i<20;i++) {
+			Session newSession = new Session();
+			Date now = new Date();
+			now.setDate(now.getDay()+i);
+			newSession.setSessionDate(now);
+			if (i%2==0) {
+				newSession.setSessionSummary("Today we talked about this");
+			} else {
+				newSession.setSessionSummary("Today we talked about that");
+			}
+		}
+		
 		return sessions;
 	}
 	

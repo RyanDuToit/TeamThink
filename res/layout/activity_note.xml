@@ -17,31 +17,27 @@
             android:layout_height="40dp"
             android:orientation="horizontal" >
 
-            <ImageButton
-                android:id="@+id/refresh"
+            <TextView
+                android:id="@+id/header_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_refresh" 
-                android:contentDescription="Refresh" >
-            </ImageButton>
-
-            <ImageButton
-                android:id="@+id/new_note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_newnote"
-                android:contentDescription="Add a new note" 
-                android:onClick="addNote">
-            </ImageButton>
+                android:layout_height="match_parent" 
+                android:text="@string/session_date"
+                android:textSize="20sp" 
+                android:textColor="#000000"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp" 
+                android:paddingRight="25dp" >
+            </TextView>
 
             <Spinner
                 android:id="@+id/sort_spinner"
-                android:layout_width="100dp"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginRight="5dp" />
 
         </LinearLayout>
-
+        
         <fragment
             android:id="@+id/list_fragment"
             android:name="edu.drake.teamthink.frags.NoteListFragment"

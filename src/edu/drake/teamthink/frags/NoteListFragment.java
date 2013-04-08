@@ -5,15 +5,12 @@ import java.util.Collections;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import edu.drake.teamthink.Note;
 import edu.drake.teamthink.NoteCompareDate;
 import edu.drake.teamthink.NoteCompareVotes;
-import edu.drake.teamthink.R;
 import edu.drake.teamthink.db.DBMethods;
 
 public class NoteListFragment extends ListFragment {
@@ -74,13 +71,6 @@ public class NoteListFragment extends ListFragment {
 		// highlight the selected item in the ListView
 		getListView().setItemChecked(pos, true);
 
-		// BYRON: Shouldn't need to do this. In fact, if we get rid of it, it still works
-		//showDetails(pos);
-	}
-	public void showDetails(int index) {
-		//TODO - implement this method so the note shows on the notedetail fragment
-		// BYRON - I don't think we need this. I think this happens in the NoteDetailFragment only.
-		//			(by way of the OnNoteSelectedListener in NoteListFrag and the NoteActivity)
 	}
 
 	public void SortList(boolean sortByDate) { //if true, sort by Date, if false sort by votes
