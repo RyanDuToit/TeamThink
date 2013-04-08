@@ -25,25 +25,23 @@ public class SessionListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		super.onActivityCreated(savedState);
 
-	    sessions = DBMethods.getSessions(); //get all sessions in an array list
+	    sessions = DBMethods.getSessions();
 		
-	    ArrayAdapter<Session> myAA = new ArrayAdapter<Session>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, sessions);  //create an array adapter (this thing interfaces with the listview)
-		
-		setListAdapter(myAA); //set list adapter to our array adapter
-		setListShown(true); //show the list
+	    ArrayAdapter<Session> myAA = new ArrayAdapter<Session>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, sessions);
+	    
+		setListAdapter(myAA);
+		setListShown(true);
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
 	}
 	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
 		// make sure the container activity has implemented the callback interface, else throw exception
 		try {
 			callback = (OnSessionSelectedListener) activity;
