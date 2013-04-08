@@ -1,23 +1,30 @@
 package edu.drake.teamthink;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import edu.drake.teamthink.db.DBMethods;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
 
+	Context context;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_note);
+		context = this.getApplicationContext();
 	}
 
 	@Override
@@ -54,8 +61,13 @@ public class NewNoteActivity extends Activity {
 		myNote.setCreationDate(myDate);
 		myNote.setSessionDate(myDate);
 		myNote.setUpVotes(0);
-		
-		Context context = getApplicationContext();
+		UploadNote upNote = new UploadNote();
+		upNote.execute(myNote);
+		return true;
+	}
+
+	public boolean doneSaving() {
+		Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
 		CharSequence toastText = "Good thinking!";
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, toastText, duration);
@@ -65,5 +77,24 @@ public class NewNoteActivity extends Activity {
 		
 		return true;
 	}
-
+	
+	
+	private class UploadNote extends AsyncTask<Note,Integer,Integer> {
+		@Override
+		protected Integer doInBackground(Note... notes) {
+			try {
+				for(Note newNote : notes)
+					DBMethods.createNote(newNote,context);
+			} catch (Exception e) {
+				System.out.println( "Unable to retrieve web page. URL may be invalid.");
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		// onPostExecute displays the results of the AsyncTask.
+		@Override
+		protected void onPostExecute(Integer result) {
+			doneSaving();
+		}
+	}
 }

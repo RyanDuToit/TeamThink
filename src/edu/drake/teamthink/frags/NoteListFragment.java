@@ -1,9 +1,18 @@
 package edu.drake.teamthink.frags;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +27,8 @@ public class NoteListFragment extends ListFragment {
 
 	int index = 0;
 	ArrayList<Note> notes;
-	
+	private ListView listView;
+
 	public interface OnNoteSelectedListener {
 		/** Called by NoteListFragment when a list item is selected (see NoteActivity) */
 		public void onNoteSelected(Note note);
@@ -30,15 +40,19 @@ public class NoteListFragment extends ListFragment {
 		if (savedState!=null) { //if nothing selected already, just choose top note
 			index = savedState.getInt("index", 0);
 		}
+		listView=this.getListView();
 
-	    notes = DBMethods.getNotes(); //get all notes in an array list
+		DownloadNotes downloader = new DownloadNotes();
+		downloader.execute(1);
+
+
 		// BYRON: changed from simple_list_item_1 to simple_list_item_activated_1 to enable highlighting of the selected note (in the list)
-		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
-		
-		Collections.sort(notes, new NoteCompareDate()); //sort array by date
-		
-		setListAdapter(myAA); //set list adapter to our array adapter
-		setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
+		//ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
+
+		//Collections.sort(notes, new NoteCompareDate()); //sort array by date
+
+		//setListAdapter(myAA); //set list adapter to our array adapter
+		//setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
 	}
 
 	@Override
@@ -78,7 +92,7 @@ public class NoteListFragment extends ListFragment {
 			Collections.sort(notes, new NoteCompareDate());
 		else
 			Collections.sort(notes, new NoteCompareVotes());
-		
+
 		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
 		setListAdapter(myAA); //set list adapter to our array adapter
 	}
@@ -86,5 +100,27 @@ public class NoteListFragment extends ListFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
+	}
+
+
+	private class DownloadNotes extends AsyncTask<Integer,Integer,ArrayList<Note> > {
+		@Override
+		protected ArrayList<Note> doInBackground(Integer... ints) {
+			ArrayList<Note> result = new ArrayList<Note>();
+
+			try {
+				notes = DBMethods.getNotes();
+			} catch (Exception e) {
+				System.out.println( "Unable to retrieve web page. URL may be invalid.");
+				e.printStackTrace();
+			}
+			return result;
+		}
+		// onPostExecute displays the results of the AsyncTask.
+		@Override
+		protected void onPostExecute(ArrayList<Note> result) {
+			ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(listView.getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
+			setListAdapter(myAA);
+		}
 	}
 }
