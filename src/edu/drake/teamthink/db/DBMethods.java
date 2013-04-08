@@ -3,6 +3,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.jcraft.jsch.*;
+import com.jcraft.jsch.Session;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -235,21 +236,22 @@ public class DBMethods {
 
 	}
 	
-	public static ArrayList<Session> getSessions() {
-		ArrayList<Session> sessions = new ArrayList<Session>();
+	public static ArrayList<Meeting> getMeetings() {
+		ArrayList<Meeting> sessions = new ArrayList<Meeting>();
 		
 		// dummy sessions
 		for (int i=0;i<20;i++) {
-			Session newSession = new Session();
+			Meeting newSession = new Meeting();
 			Date now = new Date();
 			now.setDate(now.getDay()+i);
-			newSession.setSessionDate(now);
+			newSession.setMeetingDate(now);
 			if (i%2==0) {
-				newSession.setSessionSummary("Today we talked about this");
+				newSession.setMeetingSummary("Today we talked about this");
 			} else {
-				newSession.setSessionSummary("Today we talked about that");
+				newSession.setMeetingSummary("Today we talked about that");
 			}
 		}
+		
 		
 		return sessions;
 	}

@@ -8,26 +8,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import edu.drake.teamthink.Session;
+import edu.drake.teamthink.Meeting;
 import edu.drake.teamthink.db.DBMethods;
 
 public class SessionListFragment extends ListFragment {
 	OnSessionSelectedListener callback;
 	
-	ArrayList<Session> sessions;
+	ArrayList<Meeting> sessions;
 	
 	public interface OnSessionSelectedListener {
 		/** Called by SessionListFragment when a list item is selected */
-		public void onSessionSelected(Session session);
+		public void onSessionSelected(Meeting session);
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedState) {
 		super.onActivityCreated(savedState);
 
-	    sessions = DBMethods.getSessions();
+	    sessions = DBMethods.getMeetings();
 		
-	    ArrayAdapter<Session> myAA = new ArrayAdapter<Session>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, sessions);
+	    ArrayAdapter<Meeting> myAA = new ArrayAdapter<Meeting>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, sessions);
 	    
 		setListAdapter(myAA);
 		setListShown(true);

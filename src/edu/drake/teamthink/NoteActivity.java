@@ -95,7 +95,7 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		}
 	}
 
-	public void onSessionSelected(Session session) {
+	public void onSessionSelected(Meeting session) {
 		// TODO use fragment manager to replace detail view with a note list
 		
 	}
