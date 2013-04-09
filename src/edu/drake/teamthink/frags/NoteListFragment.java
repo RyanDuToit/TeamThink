@@ -10,6 +10,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import android.R.*;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
@@ -18,10 +19,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import edu.drake.teamthink.Note;
 import edu.drake.teamthink.NoteCompareDate;
 import edu.drake.teamthink.NoteCompareVotes;
+import edu.drake.teamthink.R;
 import edu.drake.teamthink.db.DBMethods;
+
 
 public class NoteListFragment extends ListFragment {
 	OnNoteSelectedListener callback; // this basically lets the fragment communicate to the other fragment THROUGH the parent activity
@@ -123,6 +127,14 @@ public class NoteListFragment extends ListFragment {
 		protected void onPostExecute(ArrayList<Note> result) {
 			ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(listView.getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
 			setListAdapter(myAA);
+			Spinner spinner = (Spinner) getActivity().findViewById(R.id.sort_spinner);
+			int selected = spinner.getSelectedItemPosition();
+			if(selected == 0) {
+				Collections.sort(notes, new NoteCompareDate());
+			}
+			else
+				Collections.sort(notes, new NoteCompareVotes());
+			
 		}
 	}
 }

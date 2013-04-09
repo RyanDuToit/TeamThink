@@ -1,6 +1,7 @@
 package edu.drake.teamthink.db;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.format.DateFormat;
 
 import com.jcraft.jsch.*;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -13,6 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -58,7 +61,7 @@ public class DBMethods {
 
 		return notes;
 	}
-	public static ArrayList<Note> getNotes(Context context) throws IOException { //return all notes
+	public static ArrayList<Note> getNotes(Context context) throws IOException, ParseException { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
 		//dummy note (should pull from db later)
 
@@ -148,8 +151,9 @@ public class DBMethods {
 					newNote.setSessionDate(new Date()); //TODO-Fix this
 					
 					
-					String Date = notedirs.get(i).getFilename();
-					newNote.setCreationDate(new Date()); //TODO -Fix this
+					String date = notedirs.get(i).getFilename();
+					SimpleDateFormat df = new SimpleDateFormat("E_MMM_d_hh:mm:ss_z_yyyy");
+					newNote.setCreationDate(df.parse(date)); //TODO -Fix this
 					notes.add(newNote);
 					c.cd("..");
 					System.out.println(c.pwd());
@@ -163,30 +167,7 @@ public class DBMethods {
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-
-
-
-
-
-
-
-		// BYRON: modified this to add 30 different notes (just so they can be identified in the List and Detail views)
-		/*for(int i=0;i<30;i++) {
-			Note newNote = new Note();
-			newNote.setAuthor("Person #" + i);
-			Date creationDate = new Date();
-			creationDate.setYear(creationDate.getYear()+i);
-			newNote.setCreationDate(creationDate);
-			newNote.setText("Note " + i + " -- In 1554, Belgian monks worked tirelessly to develop a new, heavenly brew...");
-			newNote.setSessionDate(creationDate);
-			newNote.setUpVotes(30-i);
-
-			notes.add(newNote);
-		}*/
-
-		//System.out.println(notes.get(0).getText());
+		}		
 		return notes;
 	}
 	public static void createNote(Note myNote, Context context) {
