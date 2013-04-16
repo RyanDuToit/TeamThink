@@ -2,6 +2,8 @@ package edu.drake.teamthink.db;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.jcraft.jsch.*;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -17,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Vector;
@@ -82,14 +85,15 @@ public class DBMethods {
 
 			try {
 				c.cd("TeamThink");
+				c.cd("Notes");
 				Vector<LsEntry> notedirs = c.ls(".");
 				System.out.println(notedirs.size());
 				for(int i = 2; i < notedirs.size(); i++) {
 					Note newNote = new Note();
 					System.out.println(i);
-	                c.cd(notedirs.get(i).getFilename());
+					c.cd(notedirs.get(i).getFilename());
 					System.out.println(c.pwd());
-	                
+
 					String textFilePath = context.getFilesDir().getPath().toString() + "/textin.txt";
 					File textFile = new File(textFilePath);
 					textFile.createNewFile();
@@ -104,7 +108,7 @@ public class DBMethods {
 					}
 					newNote.setText(text);
 					System.out.println(text);
-					
+
 					String authorFilePath = context.getFilesDir().getPath().toString() + "/authorin.txt";
 					File authorFile = new File(authorFilePath);
 					authorFile.createNewFile();
@@ -118,8 +122,8 @@ public class DBMethods {
 						author+=scan2.next();
 					}
 					newNote.setAuthor(author);
-					
-					
+
+
 					String upFilePath = context.getFilesDir().getPath().toString() + "/upvotesin.txt";
 					File upFile = new File(upFilePath);
 					upFile.createNewFile();
@@ -129,13 +133,13 @@ public class DBMethods {
 					FileInputStream fis3 = new FileInputStream(upFile);
 					Scanner scan3 = new Scanner(fis3);
 					int upVotes = 0;
-					//while(scan3.hasNext()) {
-						//upVotes=scan3.nextInt();
-					//}  //TODO-something wrong with upvotes
+					while(scan3.hasNext()) {
+						upVotes=scan3.nextInt();
+					}  //TODO-something wrong with upvotes
 					newNote.setUpVotes(upVotes);
-					
-					
-					
+
+
+
 					String meetingFilePath = context.getFilesDir().getPath().toString() + "/meetingin.txt";
 					File meetingFile = new File(meetingFilePath);
 					meetingFile.createNewFile();
@@ -149,8 +153,8 @@ public class DBMethods {
 						meeting+=scan4.next();
 					}
 					newNote.setSessionDate(new Date()); //TODO-Fix this
-					
-					
+
+
 					String date = notedirs.get(i).getFilename();
 					SimpleDateFormat df = new SimpleDateFormat("E_MMM_d_hh:mm:ss_z_yyyy");
 					newNote.setCreationDate(df.parse(date)); //TODO -Fix this
@@ -162,7 +166,7 @@ public class DBMethods {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
@@ -186,6 +190,7 @@ public class DBMethods {
 			ChannelSftp c=(ChannelSftp)channel;
 			try {
 				c.cd("TeamThink");
+				c.cd("Notes");
 				Date rightNow = myNote.getCreationDate();
 				String rightNowString = rightNow.toString().replace(" ", "_"); 
 				c.mkdir(rightNowString);
@@ -197,11 +202,11 @@ public class DBMethods {
 					textFile.createNewFile();
 					FileOutputStream fos = new FileOutputStream(textFile);
 					OutputStreamWriter osw = new OutputStreamWriter(fos);
-					
+
 					osw.write(text);
 					osw.flush();
 					osw.close();
-					
+
 					String authorFilePath = context.getFilesDir().getPath().toString() + "/author.txt";
 
 					File authorFile = new File(authorFilePath);
@@ -224,10 +229,10 @@ public class DBMethods {
 					 * really written out and close */
 					osw2.flush();
 					osw2.close();
-					
-					String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
 
+					String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
 					
+
 					final int upVotes = myNote.getUpVotes();
 
 					/* We have to use the openFileOutput()-method
@@ -236,26 +241,26 @@ public class DBMethods {
 					 * This is done for security-reasons.
 					 * We chose MODE_WORLD_READABLE, because
 					 *  we have nothing to hide in our file */  
-					
+
 					File upVotesFile = new File(upVoteFilePath);
 					upVotesFile.createNewFile();
 					FileOutputStream fOut3 = new FileOutputStream(upVotesFile);
 					OutputStreamWriter osw3 = new OutputStreamWriter(fOut3); 
 
 					// Write the string to the file
-					osw3.write(upVotes);
+					osw3.write("0");
 
 					/* ensure that everything is
 					 * really written out and close */
 					osw3.flush();
 					osw3.close();
-					
-					
+
+
 					String sessionFilePath = context.getFilesDir().getPath().toString() + "/session.txt";
 
 					final String sessionDate = new String(myNote.getSessionDate().toString());
 
-			   
+
 					File sessionFile = new File(sessionFilePath);
 					sessionFile.createNewFile();
 					FileOutputStream fOut4 = new FileOutputStream(sessionFile);
@@ -268,13 +273,13 @@ public class DBMethods {
 					 * really written out and close */
 					osw4.flush();
 					osw4.close();
-					
-					
+
+
 					c.put(textFilePath, "text.txt");
 					c.put(authorFilePath, "author.txt");
 					c.put(upVoteFilePath, "upVotes.txt");
 					c.put(sessionFilePath, "session.txt");
-					
+
 				}
 				catch(IOException e) {
 					e.printStackTrace();
@@ -290,13 +295,52 @@ public class DBMethods {
 			e.printStackTrace();
 		}
 	}
-	public static void upvote(Note myNote) {
+	public static void upvote(Note myNote, Context context) {
+		JSch jsch=new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String pwd="9Gj24!L6c848FG$";
+		int port=22;
+		try {
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword("9Gj24!L6c848FG$");
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			c.cd("TeamThink");
+			c.cd("Notes");
+			String date = myNote.getCreationDate().toString().replace(" ", "_");
+			c.cd(date);
+			
+			String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
+			final Integer upVotes = myNote.getUpVotes(); 
+			File upVotesFile = new File(upVoteFilePath);
+			upVotesFile.createNewFile();
+			FileOutputStream fOut3 = new FileOutputStream(upVotesFile);
+			OutputStreamWriter osw3 = new OutputStreamWriter(fOut3); 
+			// Write the string to the file
+			osw3.write(upVotes.toString());
+			/* ensure that everything is
+			 * really written out and close */
+			osw3.flush();
+			osw3.close();
+			
+			//c.rm("upVotes.txt");
+			c.put(upVoteFilePath, "upVotes.txt");
+			
+		}
+		catch (Exception e) {
+			System.out.println(e.getStackTrace());
+		}
+
 
 	}
-	
+
 	public static ArrayList<Meeting> getMeetings() {
 		ArrayList<Meeting> sessions = new ArrayList<Meeting>();
-		
+
 		// dummy sessions
 		for (int i=0;i<20;i++) {
 			Meeting newSession = new Meeting();
@@ -309,8 +353,8 @@ public class DBMethods {
 				newSession.setMeetingSummary("Today we talked about that");
 			}
 		}
-		
-		
+
+
 		return sessions;
 	}
 
@@ -321,6 +365,7 @@ public class DBMethods {
 	public static void addUser(String s){
 
 	}
-
+	
+	
 
 }
