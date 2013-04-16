@@ -91,9 +91,10 @@ public class DBMethods {
 					System.out.println(currPassword);
 					System.out.println(currUsername);
 
-					if (currEmail.equals(email) || currPassword.equals(password)) {
+					if (currEmail.equals(email) && currPassword.equals(password)) {
 						// should probably return the currUsername to be stored and then used when they post a note
 						//TODO: save the currUsername so it can be used in the NewNoteActivity
+						
 						return true;
 					}
 				}
@@ -397,7 +398,7 @@ public class DBMethods {
 		Note myNote = null;
 		return myNote;
 	}
-	public static void addUser(String s){
+	public static void addUser(String entry, Context context){
 		JSch jsch=new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -413,24 +414,28 @@ public class DBMethods {
 			ChannelSftp c=(ChannelSftp)channel;
 			try {
 				try{
-				c.cd("TeamThink");
-				String FILENAME = "login.csv";
-				FileOutputStream fos = new FileOutputStream(FILENAME);
-				OutputStreamWriter osw = new OutputStreamWriter(fos);
-				osw.write("\n");
-				osw.write(s);
-				osw.flush();
-				osw.close();
-				}catch(IOException e) {
-					e.printStackTrace();}
-	} catch (SftpException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		}catch (JSchException e) {
+					c.cd("TeamThink");
+					
+					String filePath = context.getFilesDir().getPath().toString() + "/login.csv";
+					FileOutputStream fos = new FileOutputStream(filePath);
+					OutputStreamWriter osw = new OutputStreamWriter(fos);
+					osw.write("\n");
+					osw.write(entry);
+					osw.flush();
+					osw.close();
+					
+					c.put("login.csv");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (SftpException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}		
+			}
+		} catch (JSchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 
 	}
 

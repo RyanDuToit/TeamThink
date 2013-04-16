@@ -89,7 +89,7 @@ public class LoginActivity extends Activity {
 			try {
 					System.out.println(strings[0] + "/" + strings[1]);
 					if(DBMethods.checkLogin(strings[0],strings[1],context)) { // returns true if they are in the login file
-						return 1;	
+						return 1;
 					}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -98,8 +98,8 @@ public class LoginActivity extends Activity {
 		}
 		@Override
 		protected void onPostExecute(Integer result) {
-			if (result == 1) {
-					inLogin = true;
+			if (result == 1) {	
+				inLogin = true;
 			}
 		}
 	}

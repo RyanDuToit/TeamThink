@@ -14,6 +14,9 @@ import edu.drake.teamthink.db.DBMethods;
  * well.
  */
 public class CreateActivity extends Activity {
+	
+	Context context;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,12 +41,12 @@ public class CreateActivity extends Activity {
 		String password2 = password2Text.getText().toString();
 		String firstName = FirstNameText.getText().toString();
 		String lastName = LastNameText.getText().toString();
-		String username = firstName.concat(lastName);
+		String username = firstName.concat(" ".concat(lastName));
 		String entry = email.concat(";".concat(password.concat(";".concat(username))));
 		if (DBMethods.validateEmail(email)) { //check if email is good
 			if (password.equals(password2)) { //see if the passwords supplied match
 				if(!password.contains(";") && !username.contains(";")){ //makes sure neither the username nor password has a semicolon in it
-				DBMethods.addUser(entry);
+				DBMethods.addUser(entry, context);
 				Context context = getApplicationContext();
 				CharSequence text = "Account Created";
 				int duration = Toast.LENGTH_SHORT;
