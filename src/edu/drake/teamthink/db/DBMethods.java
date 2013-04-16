@@ -106,7 +106,8 @@ public class DBMethods {
 					if (currEmail.equals(email) && currPassword.equals(password)) {
 						// should probably return the currUsername to be stored and then used when they post a note
 						//TODO: save the currUsername so it can be used in the NewNoteActivity
-						
+						System.out.println("got it");
+						scan.close();
 						return true;
 					}
 				}
@@ -417,9 +418,6 @@ public class DBMethods {
 			osw3.close();
 			
 			c.rm("upVotes.txt");
-			
-			
-			
 			c.put(upVoteFilePath, "upVotes.txt");
 			
 		}

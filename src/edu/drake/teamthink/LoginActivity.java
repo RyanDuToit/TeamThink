@@ -18,7 +18,7 @@ public class LoginActivity extends Activity {
 
 	Context context;
 	boolean inLogin = false;
-	
+	View myView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +49,7 @@ public class LoginActivity extends Activity {
 	}
 
 	public void submit(View view) throws IOException {
+		myView = view;
 		EditText emailText = (EditText) findViewById(R.id.emailField); //grab email and pwd
 		EditText passwordText = (EditText) findViewById(R.id.passwordField);
 		String email = emailText.getText().toString();
@@ -62,17 +63,7 @@ public class LoginActivity extends Activity {
 				System.out.println(inLogin);
 			}
 			
-			if (inLogin) { //see if login was correct
-				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
-				startActivity(intent);
-			}
-			else{
-				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
-				CharSequence text = "Invalid email or password";
-				int duration = Toast.LENGTH_SHORT;
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
-			}
+			
 		}
 		else { //use toast to notify user of bad email address
 			Context context = getApplicationContext();
@@ -101,6 +92,18 @@ public class LoginActivity extends Activity {
 			if (result == 1) {	
 				inLogin = true;
 			}
+			if (inLogin) { //see if login was correct
+				Intent intent = new Intent(myView.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
+				startActivity(intent);
+			}
+			else{
+				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
+				CharSequence text = "Invalid email or password";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+			}
+			
 		}
 	}
 }
