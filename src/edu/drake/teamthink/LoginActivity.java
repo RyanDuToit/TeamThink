@@ -1,8 +1,11 @@
 package edu.drake.teamthink;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +16,14 @@ import edu.drake.teamthink.db.DBMethods;
 
 public class LoginActivity extends Activity {
 
+	Context context;
+	boolean inLogin = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);		
+		setContentView(R.layout.activity_login);
+		context = this.getApplicationContext();
 	}
 	
 
@@ -41,19 +48,25 @@ public class LoginActivity extends Activity {
 	    return true;
 	}
 
-	public void submit(View view) {
+	public void submit(View view) throws IOException {
 		EditText emailText = (EditText) findViewById(R.id.emailField); //grab email and pwd
 		EditText passwordText = (EditText) findViewById(R.id.passwordField);
 		String email = emailText.getText().toString();
 		String password = passwordText.getText().toString();
+		
 		if (DBMethods.validateEmail(email)) { //check if email is good
-			if (DBMethods.checkLogin(email,password)) { //see if login was correct
+			
+			UserLogIn uLI = new UserLogIn();
+			System.out.println("user is in the login file: ");
+			uLI.execute(email,password);
+			System.out.println(inLogin);
+			if (inLogin) { //see if login was correct
 				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
 				startActivity(intent);
 			}
 			else{
 				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
-				CharSequence text = "Invalid Email or Password";
+				CharSequence text = "Invalid email or password";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
@@ -61,10 +74,31 @@ public class LoginActivity extends Activity {
 		}
 		else { //use toast to notify user of bad email address
 			Context context = getApplicationContext();
-			CharSequence text = "Invalid Email Address";
+			CharSequence text = "Invalid email address";
 			int duration = Toast.LENGTH_SHORT;
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
+		}
+	}
+	
+	private class UserLogIn extends AsyncTask<String,Integer,Integer> {
+		@Override
+		protected Integer doInBackground(String... strings) {
+			try {
+					System.out.println(strings[0] + "/" + strings[1]);
+					if(DBMethods.checkLogin(strings[0],strings[1],context)) { // returns true if they are in the login file
+						return 1;	
+					}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			if (result == 1) {
+					inLogin = true;
+			}
 		}
 	}
 }

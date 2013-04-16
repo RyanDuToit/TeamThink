@@ -1,24 +1,20 @@
 package edu.drake.teamthink;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-
-import edu.drake.teamthink.db.DBMethods;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
+import edu.drake.teamthink.db.DBMethods;
 
 public class NewNoteActivity extends Activity {
-
+	public String userLoggedIn;
 	Context context;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class NewNoteActivity extends Activity {
 		Note myNote = new Note();
 		Date myDate = new Date();
 		
-		myNote.setAuthor("derp");
+		myNote.setAuthor(userLoggedIn);
 		myNote.setText(text.getText().toString());
 		myNote.setCreationDate(myDate);
 		myNote.setSessionDate(myDate);
