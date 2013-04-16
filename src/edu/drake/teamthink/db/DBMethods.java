@@ -315,7 +315,8 @@ public class DBMethods {
 			c.cd(date);
 			
 			String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
-			final Integer upVotes = myNote.getUpVotes(); 
+			System.out.println(upVoteFilePath);
+			final Integer upVotes = (Integer) myNote.getUpVotes(); 
 			File upVotesFile = new File(upVoteFilePath);
 			upVotesFile.createNewFile();
 			FileOutputStream fOut3 = new FileOutputStream(upVotesFile);
@@ -327,7 +328,10 @@ public class DBMethods {
 			osw3.flush();
 			osw3.close();
 			
-			//c.rm("upVotes.txt");
+			c.rm("upVotes.txt");
+			
+			
+			
 			c.put(upVoteFilePath, "upVotes.txt");
 			
 		}

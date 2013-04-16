@@ -77,6 +77,8 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 	        this.startActivity(intent);
 	        break;
 	    case R.id.refresh:
+	    	NoteListFragment listfrag = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+	    	listfrag.refreshList();
 	        // refresh from DB
 	        break;
 	    default:
