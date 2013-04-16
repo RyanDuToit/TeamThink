@@ -38,13 +38,29 @@ public class CreateActivity extends Activity {
 		String password2 = password2Text.getText().toString();
 		String firstName = FirstNameText.getText().toString();
 		String lastName = LastNameText.getText().toString();
+		String username = firstName.concat(lastName);
+		String entry = email.concat(";".concat(password.concat(";".concat(username))));
 		if (DBMethods.validateEmail(email)) { //check if email is good
 			if (password.equals(password2)) { //see if the passwords supplied match
-				DBMethods.addUser(email);
+				if(!password.contains(";") && !username.contains(";")){ //makes sure neither the username nor password has a semicolon in it
+				DBMethods.addUser(entry);
+				Context context = getApplicationContext();
+				CharSequence text = "Account Created";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
 				this.finish();
+				}
+				else{
+					Context context = getApplicationContext(); //use a toast to notify user of invalid username or password
+					CharSequence text = "Username or Password invalid";
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, text, duration);
+					toast.show();
+				}
 			}
 			else{
-				Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
+				Context context = getApplicationContext(); //use a toast to notify user of non-matching passwords.
 				CharSequence text = "Passwords do not match";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(context, text, duration);

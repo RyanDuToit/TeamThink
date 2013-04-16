@@ -398,8 +398,40 @@ public class DBMethods {
 		return myNote;
 	}
 	public static void addUser(String s){
+		JSch jsch=new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String pwd="9Gj24!L6c848FG$";
+		int port=22;
+		try {
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(pwd);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+			try {
+				try{
+				c.cd("TeamThink");
+				String FILENAME = "login.csv";
+				FileOutputStream fos = new FileOutputStream(FILENAME);
+				OutputStreamWriter osw = new OutputStreamWriter(fos);
+				osw.write("\n");
+				osw.write(s);
+				osw.flush();
+				osw.close();
+				}catch(IOException e) {
+					e.printStackTrace();}
+	} catch (SftpException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		}catch (JSchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
 
 	}
-
 
 }
