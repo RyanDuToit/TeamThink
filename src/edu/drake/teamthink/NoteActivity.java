@@ -1,7 +1,10 @@
 package edu.drake.teamthink;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +77,8 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 	        this.startActivity(intent);
 	        break;
 	    case R.id.refresh:
+	    	NoteListFragment listfrag = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+	    	listfrag.refreshList();
 	        // refresh from DB
 	        break;
 	    default:
@@ -91,7 +96,15 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 
 		// Call updateDetail method in NoteDetailFragment to update the content
 		if (detail != null) {
-			detail.updateDetail(note);
+			try {
+				detail.updateDetail(note);
+			} catch (NotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -98,6 +98,18 @@ public class NoteListFragment extends ListFragment {
 	public void onDetach() {
 		super.onDetach();
 	}
+	
+	public boolean refreshList() {
+		try {
+			DownloadNotes downloader = new DownloadNotes();
+			downloader.execute(1);
+			return true;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 
 	private class DownloadNotes extends AsyncTask<Integer,Integer,ArrayList<Note> > {
