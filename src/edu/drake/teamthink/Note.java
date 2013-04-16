@@ -42,7 +42,11 @@ public class Note {
 
 	public String toString() {
 		String result;
-		result = text;
+		if (text.length() > 25) { 
+			result = author + " thinks... " + text.substring(0, 24) + "...";
+		} else {
+			result = author + " thinks... " + text;
+		}
 		return result;
 	}
 

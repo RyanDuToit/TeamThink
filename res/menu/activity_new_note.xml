@@ -8,12 +8,6 @@
         android:title="save"/>
     
     <item
-        android:id="@+id/cancel"
-        android:orderInCategory="2"
-        android:showAsAction="ifRoom|withText"
-        android:title="cancel"/>
-    
-    <item
         android:id="@+id/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

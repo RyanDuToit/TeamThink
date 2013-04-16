@@ -14,7 +14,7 @@ import android.widget.Toast;
 import edu.drake.teamthink.db.DBMethods;
 
 public class NewNoteActivity extends Activity {
-	public String userLoggedIn;
+	public String userLoggedIn = "Anonymous"; // TODO: store the currently logged in username here.. or just in general
 	Context context;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,6 @@ public class NewNoteActivity extends Activity {
 	    switch(item.getItemId()) {
 	    case R.id.save:
 	        saveClicked();
-	        break;
-	    case R.id.cancel:
-	        this.finish();
 	        break;
 	    default:
 	        return super.onOptionsItemSelected(item);

@@ -55,11 +55,13 @@ public class LoginActivity extends Activity {
 		String password = passwordText.getText().toString();
 		
 		if (DBMethods.validateEmail(email)) { //check if email is good
+			if (inLogin == false) {
+				UserLogIn uLI = new UserLogIn();
+				System.out.println("user is in the login file: ");
+				uLI.execute(email,password);
+				System.out.println(inLogin);
+			}
 			
-			UserLogIn uLI = new UserLogIn();
-			System.out.println("user is in the login file: ");
-			uLI.execute(email,password);
-			System.out.println(inLogin);
 			if (inLogin) { //see if login was correct
 				Intent intent = new Intent(view.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
 				startActivity(intent);

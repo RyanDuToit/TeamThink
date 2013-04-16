@@ -4,14 +4,14 @@
         android:id="@+id/new_note"
         android:orderInCategory="1"
         android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/icon_newnote"
+        android:icon="@drawable/icon_newnote_white"
         android:title=""/>
     
     <item
         android:id="@+id/refresh"
         android:orderInCategory="2"
         android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/icon_refresh"
+        android:icon="@drawable/icon_refresh_white"
         android:title=""/>
     
     <item

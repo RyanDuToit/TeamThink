@@ -79,7 +79,7 @@ public class NoteDetailFragment extends Fragment {
 		SimpleDateFormat fmt = new SimpleDateFormat ("E, MMM d, yyyy 'at' h:mm a");
 		
 		// with that array of notes, update the Views in our NoteDetailFragment
-		noteAuthor.setText(note.getAuthor());
+		noteAuthor.setText(note.getAuthor() + " thinks...");
 		noteContent.setText(note.getText());		
 		notePostDate.setText(fmt.format(note.getCreationDate())); // TODO: format the date
 		noteUpvotes.setText(note.getUpVotes() + " Upvotes");

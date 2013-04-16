@@ -1,16 +1,7 @@
 package edu.drake.teamthink.frags;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
-
-import android.R.*;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
