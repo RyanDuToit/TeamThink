@@ -7,9 +7,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.drake.teamthink.db.DBMethods;
 
@@ -43,34 +48,53 @@ public class NewNoteActivity extends Activity {
 	    return true;
 	}
 
-
 	public boolean saveClicked() { // what do we need to pass it here?
 		EditText text =  (EditText) findViewById(R.id.note_input_text);
-		Note myNote = new Note();
-		Date myDate = new Date();
-		
-		myNote.setAuthor(userLoggedIn);
-		myNote.setText(text.getText().toString());
-		myNote.setCreationDate(myDate);
-		myNote.setSessionDate(myDate);
-		myNote.setUpVotes(0);
-		UploadNote upNote = new UploadNote();
-		upNote.execute(myNote);
-		return true;
+		if (text.getText().toString().equals("")) {
+			System.out.print("empty text");
+			CharSequence toastText = "Think again...";
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(context, toastText, duration);
+			toast.setGravity(Gravity.TOP, 0, 100);
+			toast.show();
+			return false;
+		}
+		else {
+			Note myNote = new Note();
+			Date myDate = new Date();
+			
+			myNote.setAuthor(userLoggedIn);
+			myNote.setText(text.getText().toString());
+			myNote.setCreationDate(myDate);
+			myNote.setSessionDate(myDate);
+			myNote.setUpVotes(0);
+			UploadNote upNote = new UploadNote();
+			upNote.execute(myNote);
+			
+			doneSaving();
+			return true;
+		}
 	}
 
 	public boolean doneSaving() {
-		Context context = getApplicationContext(); //use a toast to notify user of incorrect pwd and email
 		CharSequence toastText = "Good thinking!";
-		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(context, toastText, duration);
+		int duration = Toast.LENGTH_LONG;
+		
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.lightbulb_toast_view, (ViewGroup) findViewById(R.id.toast_layout_root));
+		
+		TextView text = (TextView) layout.findViewById(R.id.toast_text);
+		text.setText(toastText);
+		
+		Toast toast = new Toast(context);
+		toast.setView(layout);
+		toast.setDuration(duration);
 		toast.show();
 		
 		this.finish();
 		
 		return true;
 	}
-	
 	
 	private class UploadNote extends AsyncTask<Note,Integer,Integer> {
 		@Override

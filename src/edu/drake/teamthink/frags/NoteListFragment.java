@@ -7,8 +7,9 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Spinner;
 import edu.drake.teamthink.Note;
@@ -19,11 +20,11 @@ import edu.drake.teamthink.db.DBMethods;
 
 
 public class NoteListFragment extends ListFragment {
-	OnNoteSelectedListener callback; // this basically lets the fragment communicate to the other fragment THROUGH the parent activity
+	OnNoteSelectedListener callback; // to communicate back to the parent activity
 
 	int index = 0;
 	ArrayList<Note> notes;
-	private ListView listView;
+	private ListView listView; //getListView();
 	Context context;
 
 	public interface OnNoteSelectedListener {
@@ -32,38 +33,7 @@ public class NoteListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedState) {
-		super.onActivityCreated(savedState);
-		if (savedState!=null) { //if nothing selected already, just choose top note
-			index = savedState.getInt("index", 0);
-		}
-		listView=this.getListView();
-		context = listView.getContext();
-		DownloadNotes downloader = new DownloadNotes();
-		downloader.execute(1);
-
-
-		// BYRON: changed from simple_list_item_1 to simple_list_item_activated_1 to enable highlighting of the selected note (in the list)
-		//ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
-
-		//Collections.sort(notes, new NoteCompareDate()); //sort array by date
-
-		//setListAdapter(myAA); //set list adapter to our array adapter
-		//setListShown(true); //show the list; BYRON: Do we need this? Commenting it out during debugging didn't seem to change anything for me
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		// BYRON: moved from onActivityCreated to ensure the list view is available when it tries to set the choice mode
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
-	}
-
-
-	@Override
 	public void onAttach(Activity activity) {
-		/* BYRON: added onAttach because the official documentation's example said so :) */
 		super.onAttach(activity);
 
 		// make sure the container activity has implemented the callback interface, else throw exception
@@ -73,6 +43,37 @@ public class NoteListFragment extends ListFragment {
 			throw new ClassCastException(activity.toString() + " must implement OnNoteSelectedListener");
 		}
 	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		return inflater.inflate(R.layout.fragment_notelist, container, false);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedState) {
+		super.onActivityCreated(savedState);
+		
+		Activity activity = getActivity();
+		if (activity != null) {
+			listView = this.getListView();
+			context = listView.getContext();
+			DownloadNotes downloader = new DownloadNotes();
+			downloader.execute(1);
+        }
+		
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -81,25 +82,10 @@ public class NoteListFragment extends ListFragment {
 
 		// highlight the selected item in the ListView
 		getListView().setItemChecked(pos, true);
-
-	}
-
-	public void SortList(boolean sortByDate) { //if true, sort by Date, if false sort by votes
-		if(sortByDate)
-			Collections.sort(notes, new NoteCompareDate());
-		else
-			Collections.sort(notes, new NoteCompareVotes());
-
-		ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(this.getListView().getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
-		setListAdapter(myAA); //set list adapter to our array adapter
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
 	}
 	
 	public boolean refreshList() {
+		/** Calls an AsyncTask to re-pull notes from the web server **/
 		try {
 			DownloadNotes downloader = new DownloadNotes();
 			downloader.execute(1);
@@ -110,7 +96,17 @@ public class NoteListFragment extends ListFragment {
 			return false;
 		}
 	}
-
+	
+	public void SortList(boolean sortByDate) { //if true, sort by Date, if false sort by votes
+		/** Sorts the list of notes based on spinner selection **/
+		if(sortByDate)
+			Collections.sort(notes, new NoteCompareDate());
+		else
+			Collections.sort(notes, new NoteCompareVotes());
+		
+		NoteListBaseAdapter adapt = new NoteListBaseAdapter(context, notes);
+		setListAdapter(adapt);
+	}
 
 	private class DownloadNotes extends AsyncTask<Integer,Integer,ArrayList<Note> > {
 		@Override
@@ -128,8 +124,8 @@ public class NoteListFragment extends ListFragment {
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
 		protected void onPostExecute(ArrayList<Note> result) {
-			ArrayAdapter<Note> myAA = new ArrayAdapter<Note>(listView.getContext(), android.R.layout.simple_list_item_activated_1, notes);  //create an array adapter (this thing interfaces with the listview)
-			setListAdapter(myAA);
+			NoteListBaseAdapter adapt = new NoteListBaseAdapter(context, notes);
+			setListAdapter(adapt);
 			Spinner spinner = (Spinner) getActivity().findViewById(R.id.sort_spinner);
 			int selected = spinner.getSelectedItemPosition();
 			if(selected == 0) {

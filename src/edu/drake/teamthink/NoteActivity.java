@@ -6,17 +6,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import edu.drake.teamthink.frags.SessionListFragment;
+import android.widget.TextView;
+import android.widget.Toast;
 import edu.drake.teamthink.frags.NoteDetailFragment;
 import edu.drake.teamthink.frags.NoteListFragment;
 
-public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener, SessionListFragment.OnSessionSelectedListener {
+public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener {
 	boolean initdone = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +82,9 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 	    case R.id.refresh:
 	    	NoteListFragment listfrag = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
 	    	listfrag.refreshList();
-	        // refresh from DB
 	        break;
+	    case R.id.menu_logout:
+	    	this.finish(); // close the activity (goes to home screen)
 	    default:
 	        return super.onOptionsItemSelected(item);
 	    }
@@ -90,7 +94,6 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 
 	public void onNoteSelected(Note note) {
 		/** The user selected a note in the NoteListFragment list (this is why we "implements NLF.OnNoteSelectedListener) */
-
 		// capture the detail fragment from the activity layout
 		NoteDetailFragment detail = (NoteDetailFragment) getFragmentManager().findFragmentById(R.id.detail_fragment);
 
