@@ -34,13 +34,11 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-import edu.drake.teamthink.Meeting;
-import edu.drake.teamthink.Note;
 import edu.drake.teamthink.*;
 
 public class DBMethods {
 
-	public static boolean checkLogin(String email, String password, Context context) throws IOException {
+	public static String checkLogin(String email, String password, Context context) throws IOException {
 		String[] logins = new String[400];
 
 		JSch jsch=new JSch();
@@ -107,13 +105,14 @@ public class DBMethods {
 						// should probably return the currUsername to be stored and then used when they post a note
 						//TODO: save the currUsername so it can be used in the NewNoteActivity
 						System.out.println("got it");
+						System.out.println(currUsername);
 						scan.close();
-						return true;
+						return currUsername;
 					}
 				}
 
 				// final case, not in the login file -- do not allow them to proceed
-				return false;
+				return "";
 
 
 			} catch (SftpException e) {
@@ -125,7 +124,7 @@ public class DBMethods {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return true;
+		return "";
 	}
 	public static boolean userExists(String username) {
 		return false;

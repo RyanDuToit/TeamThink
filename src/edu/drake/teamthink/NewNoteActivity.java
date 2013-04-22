@@ -1,7 +1,10 @@
 package edu.drake.teamthink;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Date;
+import java.util.Scanner;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +29,15 @@ public class NewNoteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_note);
 		context = this.getApplicationContext();
+		try {
+			Scanner in = new Scanner(new FileReader(context.getFilesDir().getPath().toString() + "/currentUser.txt"));
+			userLoggedIn = in.nextLine();
+			in.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

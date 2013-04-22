@@ -1,5 +1,8 @@
 package edu.drake.teamthink;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -73,26 +76,41 @@ public class LoginActivity extends Activity {
 		}
 	}
 	
-	private class UserLogIn extends AsyncTask<String,Integer,Integer> {
+	private class UserLogIn extends AsyncTask<String,Integer,String> {
 		@Override
-		protected Integer doInBackground(String... strings) {
+		protected String doInBackground(String... strings) {
+			String Result;
 			try {
 					System.out.println(strings[0] + "/" + strings[1]);
-					if(DBMethods.checkLogin(strings[0],strings[1],context)) { // returns true if they are in the login file
-						return 1;
-					}
+					return DBMethods.checkLogin(strings[0],strings[1],context);
 			} catch (Exception e) {
 				e.printStackTrace();
+				return "";
 			}
-			return 0;
 		}
 		@Override
-		protected void onPostExecute(Integer result) {
-			if (result == 1) {	
+		protected void onPostExecute(String result) { //result = UserName
+			if (!result.equals("")) {	
 				inLogin = true;
 			}
 			if (inLogin) { //see if login was correct
 				Intent intent = new Intent(myView.getContext(), NoteActivity.class); //when clicked, pull up an instance of the note screen activity
+				
+				//Create login file that is used for authorname
+				String userNameFilePath = context.getFilesDir().getPath().toString() + "/currentUser.txt";
+				//File userNameFile = new File(userNameFilePath);
+				//userNameFile.createNewFile();
+				FileWriter fw = null;
+				try {
+					fw = new FileWriter(userNameFilePath);
+					fw.write(result);
+					fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
 				startActivity(intent);
 				finish(); // closes the login activity; when the user presses back from the Notes activity, the app closes to the home screen
 			}
