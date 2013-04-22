@@ -209,10 +209,9 @@ public class DBMethods {
 					FileInputStream fis2 = new FileInputStream(authorFile);
 					Scanner scan2 = new Scanner(fis2);
 					String author = "";
-					while(scan2.hasNext()) {
-						author+=scan2.next();
-					}
+					author = scan2.nextLine();
 					newNote.setAuthor(author);
+					//System.out.println(author);
 
 					String upFilePath = context.getFilesDir().getPath().toString() + "/upvotesin.txt";
 					File upFile = new File(upFilePath);
