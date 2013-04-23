@@ -42,6 +42,7 @@ public class NoteDetailFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		voteButton = (ImageButton) getActivity().findViewById(R.id.note_vote_button);
+		voteButton.setVisibility(View.GONE);
 		voteButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -78,7 +79,10 @@ public class NoteDetailFragment extends Fragment {
 	// BYRON: This is triggered through the Activity by its implementation of the listener defined in NoteListFragment
 	public void updateDetail(Note note) throws NotFoundException, IOException {
 		/** Given an ArrayList of Note objects (the same as displayed in NoteListFragment), update the Detail view for the selected note */
-
+		
+		// if upvote button is invisible (nothing selected yet) set it to visible
+		if (voteButton.getVisibility() == View.GONE) { voteButton.setVisibility(View.VISIBLE); }
+		
 		// get all of the views we can change ( / need to change )
 		TextView noteAuthor = (TextView) getActivity().findViewById(R.id.note_author);
 		TextView notePostDate = (TextView) getActivity().findViewById(R.id.note_post_date);

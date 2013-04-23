@@ -12,4 +12,7 @@
     <color 
         name="list_item_selected"
         >#ff33b5e5</color>
+    <color
+        name="temp_item_selected"
+        >#ffff9c</color>
 </resources>
