@@ -84,6 +84,8 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 	    	listfrag.refreshList();
 	        break;
 	    case R.id.menu_logout:
+	    	Intent intentLogin = new Intent(this, LoginActivity.class);
+	    	this.startActivity(intentLogin);
 	    	this.finish(); // close the activity (goes to home screen)
 	    default:
 	        return super.onOptionsItemSelected(item);
