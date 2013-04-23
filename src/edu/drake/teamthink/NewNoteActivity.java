@@ -82,8 +82,6 @@ public class NewNoteActivity extends Activity {
 			myNote.setUpVotes(0);
 			UploadNote upNote = new UploadNote();
 			upNote.execute(myNote);
-			
-			doneSaving();
 			return true;
 		}
 	}
