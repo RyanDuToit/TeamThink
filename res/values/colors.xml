@@ -6,4 +6,10 @@
     <color
         name="list_grey"
         >#d8d8d8</color>
+    <color
+        name="list_item_pressed"
+        >#ff0099cc</color>
+    <color 
+        name="list_item_selected"
+        >#ff33b5e5</color>
 </resources>

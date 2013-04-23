@@ -65,14 +65,14 @@ public class NoteListFragment extends ListFragment {
 			context = listView.getContext();
 			DownloadNotes downloader = new DownloadNotes();
 			downloader.execute(1);
+			listView.setSelector(R.drawable.listitem_selector);
         }
-		
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
+		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class NoteListFragment extends ListFragment {
 		callback.onNoteSelected(notes.get(pos));
 
 		// highlight the selected item in the ListView
-		getListView().setItemChecked(pos, true);
+		l.setItemChecked(pos, true);
 	}
 	
 	public boolean refreshList() {
