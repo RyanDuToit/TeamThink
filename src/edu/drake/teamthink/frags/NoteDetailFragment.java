@@ -28,57 +28,34 @@ public class NoteDetailFragment extends Fragment {
 	ImageButton voteButton;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-		//if (savedInstanceState != null) {
-		//	currentNote = savedInstanceState.getNote(ARG_POSITION);
-		//}
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_notedetail, container, false);
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		// TODO: this is bugged (button disappears when returning from a NewNote activity)
 		voteButton = (ImageButton) getActivity().findViewById(R.id.note_vote_button);
 		voteButton.setVisibility(View.GONE);
+		
 		voteButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onVoteButtonClick(currentNote);
 			}
 		});
-		/*
-		// At startup, we should check for arguments passed to the fragment
-		Bundle args = getArguments();
-		if (args != null) {
-			// set based on argument passed in
-			updateDetail(args.getInt(ARG_POSITION));
-		} else if (currentPosition != -1) {
-			// set based on saved instance state defined during onCreateView
-			updateDetail(currentPosition);
-		}
-		 */
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
 	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		/** Save the current position so that on changes like screen orientation switch (vert to horizontal) it keeps the same detail pulled up */
-		super.onSaveInstanceState(outState);
-
-		// save the current selection
-		//outState.put(ARG_POSITION, currentPosition);
-	}
-
-	// BYRON: This is triggered through the Activity by its implementation of the listener defined in NoteListFragment
+	
 	public void updateDetail(Note note) throws NotFoundException, IOException {
 		/** Given an ArrayList of Note objects (the same as displayed in NoteListFragment), update the Detail view for the selected note */
+		
+		System.out.println("updateDetail in NoteDetailFragment begin execution");
 		
 		// if upvote button is invisible (nothing selected yet) set it to visible
 		if (voteButton.getVisibility() == View.GONE) { voteButton.setVisibility(View.VISIBLE); }
