@@ -1,7 +1,12 @@
 package edu.drake.teamthink;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -14,13 +19,14 @@ import edu.drake.teamthink.db.DBMethods;
  * well.
  */
 public class CreateActivity extends Activity {
-	
+
 	Context context;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create);		
+		setContentView(R.layout.activity_create);
+		context = this.getBaseContext();
 	}
 
 	@Override
@@ -46,13 +52,8 @@ public class CreateActivity extends Activity {
 		if (DBMethods.validateEmail(email)) { //check if email is good
 			if (password.equals(password2)) { //see if the passwords supplied match
 				if(!password.contains(";") && !username.contains(";")){ //makes sure neither the username nor password has a semicolon in it
-				DBMethods.addUser(entry, context);
-				Context context = getApplicationContext();
-				CharSequence text = "Account Created";
-				int duration = Toast.LENGTH_SHORT;
-				Toast toast = Toast.makeText(context, text, duration);
-				toast.show();
-				this.finish();
+					CreateUser asyncTask = new CreateUser();
+					asyncTask.execute(entry);
 				}
 				else{
 					Context context = getApplicationContext(); //use a toast to notify user of invalid username or password
@@ -79,4 +80,20 @@ public class CreateActivity extends Activity {
 		}
 	}
 
+	
+	private class CreateUser extends AsyncTask<String,Integer,Integer> {
+		@Override
+		protected Integer doInBackground(String... strings) {
+			return DBMethods.addUser(strings[0], context);
+		}
+		@Override
+		protected void onPostExecute(Integer result) { //result = UserName
+			CharSequence text = "Account Created";
+			int duration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+			finish();
+		}
+	}
+	
 }
