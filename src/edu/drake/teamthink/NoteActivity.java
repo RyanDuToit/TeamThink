@@ -15,8 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import edu.drake.teamthink.frags.NoteDetailFragment;
 import edu.drake.teamthink.frags.NoteListFragment;
+import edu.drake.teamthink.frags.TeamListFragment;
 
-public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener {
+public class NoteActivity extends Activity implements NoteListFragment.OnNoteSelectedListener, TeamListFragment.OnTeamSelectedListener {
 	boolean initdone = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,13 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 		/* Initialize left container */
 		if (findViewById(R.id.left_container) != null) {
-			NoteListFragment noteList = new NoteListFragment();
-			transaction.add(R.id.left_container, noteList);
+			TeamListFragment teamList = new TeamListFragment();
+			transaction.add(R.id.left_container, teamList);
 			System.out.println("list should be added...");
 		}
 
 		/* Initialize right container */
 		if (findViewById(R.id.right_container) != null) {
-			//NoteDetailFragment noteDetail = new NoteDetailFragment();
 			NoteListFragment noteList = new NoteListFragment();
 			transaction.add(R.id.right_container, noteList);
 			System.out.println("detail should be added...");
@@ -153,9 +153,9 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 
 	}
 
-	public void onSessionSelected(Meeting session) {
+	public void onTeamSelected(String team) {
 		// TODO use fragment manager to replace detail view with a note list
-
+		
 	}
 
 	public void addNote(View view) {
