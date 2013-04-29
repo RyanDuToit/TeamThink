@@ -402,7 +402,7 @@ public class DBMethods {
 			c.cd("Notes");
 			String date = myNote.getCreationDate().toString().replace(" ", "_");
 			c.cd(date);
-			
+
 			String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
 			System.out.println(upVoteFilePath);
 			final Integer upVotes = (Integer) myNote.getUpVotes(); 
@@ -416,10 +416,10 @@ public class DBMethods {
 			 * really written out and close */
 			osw3.flush();
 			osw3.close();
-			
+
 			c.rm("upVotes.txt");
 			c.put(upVoteFilePath, "upVotes.txt");
-			
+
 		}
 		catch (Exception e) {
 			System.out.println(e.getStackTrace());
@@ -452,7 +452,7 @@ public class DBMethods {
 		Note myNote = null;
 		return myNote;
 	}
-	public static void addUser(String entry, Context context){
+	public static Integer addUser(String entry, Context context){
 		JSch jsch=new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -466,33 +466,25 @@ public class DBMethods {
 			Channel channel=session.openChannel("sftp");
 			channel.connect();
 			ChannelSftp c=(ChannelSftp)channel;
-			try {
-				try{
 					c.cd("TeamThink");
-					
-					String filePath = context.getFilesDir().getPath().toString() + "/login.csv";
+					String filePath = context.getFilesDir().getPath().toString() + "/login.csv";					
 					FileOutputStream fos = new FileOutputStream(filePath);
+					c.get("login.csv", fos);
 					OutputStreamWriter osw = new OutputStreamWriter(fos);
 					osw.write("\n");
 					osw.write(entry);
 					osw.flush();
 					osw.close();
-					
-					c.put("login.csv");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} catch (SftpException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+					fos.close();
+					c.put(filePath,"login.csv");
 
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+
+		return 1;
 	}
-	
+
 	public static boolean isNetworkConnected(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo ni = cm.getActiveNetworkInfo();
