@@ -39,7 +39,7 @@ import com.jcraft.jsch.SftpException;
 import edu.drake.teamthink.*;
 
 public class DBMethods {
-
+	public static String currentTeam = "";
 	public static String checkLogin(String email, String password, Context context) throws IOException {
 		String[] logins = new String[400];
 
@@ -48,8 +48,6 @@ public class DBMethods {
 		String host="artsci.drake.edu";
 		String pwd="9Gj24!L6c848FG$";
 		int port=22;
-
-		System.out.println("Made it to first try");
 
 		try {
 			Session session=jsch.getSession(user, host, port);
@@ -63,14 +61,7 @@ public class DBMethods {
 
 			try {
 				c.cd("TeamThink");
-				/*
-				// Get the path to a local login.csv file
-				String loginFilePath = context.getFilesDir().getPath().toString() + "/login.csv";
-				File loginFile = new File(loginFilePath);
-				loginFile.createNewFile();	// TODO: this is bad because it saves a copy of everyones login information to the user's device.. revise this if possible?
-				 */
 
-				//
 				String FILENAME = "login.csv";
 				FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 				c.get("login.csv", fos);
@@ -82,9 +73,7 @@ public class DBMethods {
 				int i = 0;
 
 				while(scan.hasNext()) {
-					//System.out.println(scan.nextLine());
 					logins[i] = scan.nextLine(); // put next line in the logins string array
-					System.out.println(logins[i]);
 					i++;
 				}
 
@@ -104,10 +93,7 @@ public class DBMethods {
 					System.out.println(currUsername);
 
 					if (currEmail.equals(email) && currPassword.equals(password)) {
-						// should probably return the currUsername to be stored and then used when they post a note
-						//TODO: save the currUsername so it can be used in the NewNoteActivity
-						System.out.println("got it");
-						System.out.println(currUsername);
+						System.out.println("Got username: " + currUsername);
 						scan.close();
 						return currUsername;
 					}
@@ -193,7 +179,7 @@ public class DBMethods {
 	
 	public static ArrayList<Note> getNotes(Context context,String team) throws IOException, ParseException { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
-
+		currentTeam = team;
 		JSch jsch=new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -306,7 +292,10 @@ public class DBMethods {
 			ChannelSftp c=(ChannelSftp)channel;
 			try {
 				c.cd("TeamThink");
-				c.cd("Notes");
+				c.cd("teams");
+				c.cd(currentTeam);
+				
+				System.out.println("To " + currentTeam);
 				Date rightNow = myNote.getCreationDate();
 				String rightNowString = rightNow.toString().replace(" ", "_"); 
 				c.mkdir(rightNowString);
@@ -348,8 +337,6 @@ public class DBMethods {
 
 					String upVoteFilePath = context.getFilesDir().getPath().toString() + "/upVotes.txt";
 
-
-
 					final int upVotes = myNote.getUpVotes();
 
 					/* We have to use the openFileOutput()-method
@@ -371,7 +358,6 @@ public class DBMethods {
 					 * really written out and close */
 					osw3.flush();
 					osw3.close();
-
 
 					String sessionFilePath = context.getFilesDir().getPath().toString() + "/session.txt";
 
@@ -421,13 +407,14 @@ public class DBMethods {
 		try {
 			Session session=jsch.getSession(user, host, port);
 			JSch.setConfig("StrictHostKeyChecking", "no");
-			session.setPassword("9Gj24!L6c848FG$");
+			session.setPassword(pwd);
 			session.connect();
 			Channel channel=session.openChannel("sftp");
 			channel.connect();
 			ChannelSftp c=(ChannelSftp)channel;
 			c.cd("TeamThink");
-			c.cd("Notes");
+			c.cd("teams");
+			c.cd(currentTeam);
 			String date = myNote.getCreationDate().toString().replace(" ", "_");
 			c.cd(date);
 

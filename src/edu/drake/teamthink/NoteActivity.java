@@ -98,7 +98,7 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			this.startActivity(intent);
 			break;
 		case R.id.refresh:
-			NoteListFragment listfrag = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+			NoteListFragment listfrag = (NoteListFragment) getFragmentManager().findFragmentById(R.id.left_container);
 			listfrag.refreshList();
 			break;
 		case R.id.menu_logout:
