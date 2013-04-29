@@ -130,6 +130,9 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			NoteListFragment list = new NoteListFragment();
 			NoteDetailFragment detail = new NoteDetailFragment();
 			
+			NoteListFragment oldList = (NoteListFragment) getFragmentManager().findFragmentById(R.id.right_container);
+			list.setCurrentTeam(oldList.getCurrentTeam());
+			
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 			
 			// replace containers with new fragments
@@ -154,8 +157,15 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 	}
 
 	public void onTeamSelected(String team) {
-		// TODO use fragment manager to replace detail view with a note list
-		
+		NoteListFragment noteList = (NoteListFragment) getFragmentManager().findFragmentById(R.id.right_container);		
+		if(noteList != null) {
+			try{
+				noteList.teamSelected(team);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void addNote(View view) {

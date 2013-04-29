@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import edu.drake.teamthink.R;
+import edu.drake.teamthink.db.DBMethods;
 
 public class TeamListFragment extends ListFragment {
 	OnTeamSelectedListener callback; // to communicate back to the parent activity
@@ -55,7 +57,9 @@ public class TeamListFragment extends ListFragment {
 		if (activity != null) {
 			listView = this.getListView();
 			context = listView.getContext();
-			// TODO: populate list of teams
+			System.out.println("in this area");
+			DownloadTeams downloader = new DownloadTeams();
+			downloader.execute(1);
 			listView.setSelector(R.drawable.listitem_selector);
         }
 	}
@@ -68,7 +72,29 @@ public class TeamListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
+		callback.onTeamSelected(teams.get(pos));
+		l.setItemChecked(pos, true);
+	}
+	private class DownloadTeams extends AsyncTask<Integer, Integer, ArrayList<String>> {
 
+		@Override
+		protected ArrayList<String> doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			
+			try {
+				teams = DBMethods.getTeams();
+			}
+			catch (Exception e)  {
+				e.printStackTrace();
+			}
+			
+			return teams;
+		}
+		@Override
+		protected void onPostExecute(ArrayList<String> result) {
+			TeamListBaseAdapter adapt = new TeamListBaseAdapter(context, teams);
+			setListAdapter(adapt);
+		}
 	}
 	
 }

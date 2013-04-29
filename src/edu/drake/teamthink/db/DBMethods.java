@@ -142,6 +142,38 @@ public class DBMethods {
 		return m.matches(); //if it matches, return true
 
 	}
+	public static ArrayList<String> getTeams() {
+		ArrayList<String> teams = new ArrayList<String>();
+		JSch jsch = new JSch();
+		String user = "asapp";
+		String host = "artsci.drake.edu";
+		String pwd="9Gj24!L6c848FG$";
+		int port=22;
+		try {
+			Session session = jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking","no");
+			session.setPassword(pwd);
+			session.connect();
+			Channel channel = session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c = (ChannelSftp)channel;
+			c.cd("TeamThink");
+			c.cd("teams");
+			Vector<LsEntry> teamdirs = c.ls(".");
+			for(int i = 2; i < teamdirs.size(); i++) {
+				teams.add(teamdirs.get(i).getFilename());
+			}
+			System.out.println("team size" + " " + teams.size());
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return teams;
+		
+	}
+	
 	public static ArrayList<Note> getNotes(Date session) { //return notes from a session
 
 		ArrayList<Note> notes = new ArrayList<Note>(); 
@@ -158,10 +190,10 @@ public class DBMethods {
 
 		return notes;
 	}
-	public static ArrayList<Note> getNotes(Context context) throws IOException, ParseException { //return all notes
+	
+	public static ArrayList<Note> getNotes(Context context,String team) throws IOException, ParseException { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
 
-		System.out.println("Hello");
 		JSch jsch=new JSch();
 		String user="asapp";
 		String host="artsci.drake.edu";
@@ -178,14 +210,12 @@ public class DBMethods {
 
 			try {
 				c.cd("TeamThink");
-				c.cd("Notes");
+				c.cd("teams");
+				c.cd(team);
 				Vector<LsEntry> notedirs = c.ls(".");
-				System.out.println(notedirs.size());
 				for(int i = 2; i < notedirs.size(); i++) {
 					Note newNote = new Note();
-					System.out.println(i);
 					c.cd(notedirs.get(i).getFilename());
-					System.out.println(c.pwd());
 
 					String textFilePath = context.getFilesDir().getPath().toString() + "/textin.txt";
 					File textFile = new File(textFilePath);
@@ -200,7 +230,6 @@ public class DBMethods {
 						text+=scan.next()+" ";
 					}
 					newNote.setText(text);
-					System.out.println(text);
 
 					String authorFilePath = context.getFilesDir().getPath().toString() + "/authorin.txt";
 					File authorFile = new File(authorFilePath);
@@ -248,7 +277,6 @@ public class DBMethods {
 					newNote.setCreationDate(df.parse(date)); //TODO -Fix this
 					notes.add(newNote);
 					c.cd("..");
-					System.out.println(c.pwd());
 				}
 			} catch (SftpException e) {
 				// TODO Auto-generated catch block
