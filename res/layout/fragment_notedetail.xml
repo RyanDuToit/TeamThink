@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
 		android:layout_marginLeft="10dp" >
-		
+
         <TextView
             android:id="@+id/note_upvote_count"
             android:layout_width="wrap_content"
@@ -50,13 +50,12 @@
             android:paddingRight="10dp"
             android:textSize="18sp" />
         	<!-- android:text="12 Upvotes" -->
-
         <ImageButton
             android:id="@+id/note_vote_button"
-            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/voting_state_gray"
+            android:background="#ffffff"
+            android:src="@drawable/brilliant_no_upvote"
             android:contentDescription="Good thought" />
         
     </LinearLayout>

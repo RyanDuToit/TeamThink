@@ -53,7 +53,7 @@ public class NoteListBaseAdapter extends BaseAdapter {
         if (noteContent.length() > 80) { holder.content.setText(noteContent.substring(0, 80) + "..."); }
         else { holder.content.setText(noteContent); }
         
-        holder.upvotes.setText(Integer.toString(notes.get(position).getUpVotes()) + " thought power");
+        holder.upvotes.setText(Integer.toString(notes.get(position).getUpVotes()) + " brilliance");
  
         return convertView;
     }

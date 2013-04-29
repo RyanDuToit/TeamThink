@@ -35,9 +35,7 @@ public class NoteDetailFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		// TODO: this is bugged (button disappears when returning from a NewNote activity)
 		voteButton = (ImageButton) getActivity().findViewById(R.id.note_vote_button);
-		voteButton.setVisibility(View.GONE);
 		
 		voteButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -57,9 +55,6 @@ public class NoteDetailFragment extends Fragment {
 		
 		System.out.println("updateDetail in NoteDetailFragment begin execution");
 		
-		// if upvote button is invisible (nothing selected yet) set it to visible
-		if (voteButton.getVisibility() == View.GONE) { voteButton.setVisibility(View.VISIBLE); }
-		
 		// get all of the views we can change ( / need to change )
 		TextView noteAuthor = (TextView) getActivity().findViewById(R.id.note_author);
 		TextView notePostDate = (TextView) getActivity().findViewById(R.id.note_post_date);
@@ -74,18 +69,18 @@ public class NoteDetailFragment extends Fragment {
 		notePostDate.setText(fmt.format(note.getCreationDate())); // TODO: format the date
 		if(note.getUpVotes() == 1)
 		{
-			noteUpvotes.setText("1 Upvote");
+			noteUpvotes.setText("1 brilliance");
 		}
-		noteUpvotes.setText(note.getUpVotes() + " Upvotes");
+		noteUpvotes.setText(note.getUpVotes() + " brilliance");
 
 
 		if(hasbeenupvoted(note, this.getActivity().getBaseContext()))
 		{
-			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.voting_state_lit));
+			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.brilliant_yes_upvote));
 			voteButton.setClickable(false);
 		}
 		else {
-			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.voting_state_gray));
+			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.brilliant_no_upvote));
 			voteButton.setClickable(true);
 		}
 		currentNote = note;
@@ -115,14 +110,14 @@ public class NoteDetailFragment extends Fragment {
 			UpVoteNotes upvoter = new UpVoteNotes();
 			int count = note.getUpVotes();
 			upvoter.execute(note);
-			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.voting_state_lit));
+			voteButton.setImageDrawable(getResources().getDrawable(R.drawable.brilliant_yes_upvote));
 			voteButton.setClickable(false);
 			TextView noteUpvotes = (TextView) getActivity().findViewById(R.id.note_upvote_count);
 			if(count == 0) {
-				noteUpvotes.setText((count+1) +" Upvote");
+				noteUpvotes.setText((count+1) +" brilliance");
 			}
 			else {
-				noteUpvotes.setText((count+1) +" Upvotes");
+				noteUpvotes.setText((count+1) +" brilliance");
 			}
 
 		}

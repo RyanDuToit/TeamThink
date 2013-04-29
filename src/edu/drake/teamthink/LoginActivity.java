@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
 	private class UserLogIn extends AsyncTask<String,Integer,String> {
 		@Override
 		protected String doInBackground(String... strings) {
-			String Result;
+			String result;
 			try {
 				System.out.println(strings[0] + "/" + strings[1]);
 				return DBMethods.checkLogin(strings[0],strings[1],context);

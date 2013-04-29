@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import edu.drake.teamthink.frags.NoteDetailFragment;
 import edu.drake.teamthink.frags.NoteListFragment;
 import edu.drake.teamthink.frags.TeamListFragment;
@@ -38,8 +39,12 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			transaction.add(R.id.right_container, noteList);
 			System.out.println("detail should be added...");
 		}
+		
 		transaction.commit();
 
+		TextView container_header = (TextView) findViewById(R.id.header_text);
+		container_header.setText("Your Teams");
+		
 		Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort_list, android.R.layout.simple_spinner_item);
@@ -52,7 +57,7 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				if(initdone) {
-					NoteListFragment list = (NoteListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+					NoteListFragment list = (NoteListFragment) getFragmentManager().findFragmentById(R.id.left_container);
 					switch (position) {
 					case 0:
 						list.SortList(true);
@@ -125,6 +130,10 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			}
 		} catch (ClassCastException e) {
 			// note list is in right container
+			
+			// update header text
+			TextView container_header = (TextView) findViewById(R.id.header_text);
+			container_header.setText("Thoughts");
 			
 			// create or grab fragments
 			NoteListFragment list = new NoteListFragment();
