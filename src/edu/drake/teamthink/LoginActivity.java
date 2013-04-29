@@ -63,6 +63,7 @@ public class LoginActivity extends Activity {
 					UserLogIn uLI = new UserLogIn();
 					System.out.println("user is in the login file: ");
 					uLI.execute(email,password);
+				  
 					System.out.println(inLogin);
 				}
 
