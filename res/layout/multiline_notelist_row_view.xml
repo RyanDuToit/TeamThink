@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/activatedBackgroundIndicator"
     android:paddingBottom="10dip"
     android:paddingLeft="10dip"
-    android:paddingTop="10dip" 
-    android:background="?android:attr/activatedBackgroundIndicator">
-    
+    android:paddingRight="10dip"
+    android:paddingTop="10dip" >
+
     <TextView
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:textSize="18sp"
         android:textStyle="bold" />
- 
+
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/author"
         android:textSize="16sp" />
- 
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content"
+        android:textSize="12sp" />
+
     <TextView
         android:id="@+id/votes"
         android:layout_width="wrap_content"
+        android:minWidth="52dp"
         android:layout_height="wrap_content"
-        android:textSize="12sp" />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/list_view_bulb_icon"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:textSize="40sp" />
 
-</LinearLayout>
+</RelativeLayout>

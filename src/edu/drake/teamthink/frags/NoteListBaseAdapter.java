@@ -1,6 +1,8 @@
 package edu.drake.teamthink.frags;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,6 +42,7 @@ public class NoteListBaseAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.author = (TextView) convertView.findViewById(R.id.author);
             holder.content = (TextView) convertView.findViewById(R.id.content);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.upvotes = (TextView) convertView.findViewById(R.id.votes);
  
             convertView.setTag(holder);
@@ -53,7 +56,9 @@ public class NoteListBaseAdapter extends BaseAdapter {
         if (noteContent.length() > 80) { holder.content.setText(noteContent.substring(0, 80) + "..."); }
         else { holder.content.setText(noteContent); }
         
-        holder.upvotes.setText(Integer.toString(notes.get(position).getUpVotes()) + " brilliance");
+        SimpleDateFormat fmt = new SimpleDateFormat ("E, MMM d, yyyy 'at' h:mm a", Locale.US);
+        holder.date.setText(fmt.format(notes.get(position).getCreationDate()));
+        holder.upvotes.setText(Integer.toString(notes.get(position).getUpVotes()));
  
         return convertView;
     }
@@ -61,6 +66,7 @@ public class NoteListBaseAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView author;
         TextView content;
+        TextView date;
         TextView upvotes;
     }
 	

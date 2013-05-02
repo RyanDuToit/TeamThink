@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 import android.app.Fragment;
@@ -61,7 +62,7 @@ public class NoteDetailFragment extends Fragment {
 		TextView noteContent = (TextView) getActivity().findViewById(R.id.note_content);
 		TextView noteUpvotes = (TextView) getActivity().findViewById(R.id.note_upvote_count);
 
-		SimpleDateFormat fmt = new SimpleDateFormat ("E, MMM d, yyyy 'at' h:mm a");
+		SimpleDateFormat fmt = new SimpleDateFormat ("E, MMM d, yyyy 'at' h:mm a", Locale.US);
 
 		// with that array of notes, update the Views in our NoteDetailFragment
 		noteAuthor.setText(note.getAuthor() + " thinks...");
