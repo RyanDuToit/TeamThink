@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    
+    <EditText
+        android:id="@+id/editTextKeywordsToBlock"
+        android:hint="Enter Team Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+                  
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            
+            android:layout_marginTop="10dp">
+                  
+
+     <Button
+         android:id="@+id/buttonSave"
+         android:layout_marginTop="15dp"
+         android:layout_weight="1"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:text="Save" 
+         />
+     
+      <Button
+         android:id="@+id/buttonCancel"
+         android:layout_marginTop="15dp"
+         android:layout_weight="1"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:text="Cancel" 
+         />
+    
+     </LinearLayout>
+    
+
+</LinearLayout>
