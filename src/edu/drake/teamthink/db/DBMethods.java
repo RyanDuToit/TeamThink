@@ -154,12 +154,12 @@ public class DBMethods {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return teams;
-		
+
 	}
-	
+
 	public static ArrayList<Note> getNotes(Date session) { //return notes from a session
 
 		ArrayList<Note> notes = new ArrayList<Note>(); 
@@ -176,7 +176,30 @@ public class DBMethods {
 
 		return notes;
 	}
-	
+	public static void createTeam(Context context,String team) {
+		JSch jsch=new JSch();
+		String user="asapp";
+		String host="artsci.drake.edu";
+		String pwd="9Gj24!L6c848FG$";
+		int port=22;
+		try {
+			Session session=jsch.getSession(user, host, port);
+			JSch.setConfig("StrictHostKeyChecking", "no");
+			session.setPassword(pwd);
+			session.connect();
+			Channel channel=session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp c=(ChannelSftp)channel;
+
+			c.cd("TeamThink");
+			c.cd("teams");
+			c.mkdir(team);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	public static ArrayList<Note> getNotes(Context context,String team) throws IOException, ParseException { //return all notes
 		ArrayList<Note> notes = new ArrayList<Note>(); 
 		currentTeam = team;
@@ -294,7 +317,7 @@ public class DBMethods {
 				c.cd("TeamThink");
 				c.cd("teams");
 				c.cd(currentTeam);
-				
+
 				System.out.println("To " + currentTeam);
 				Date rightNow = myNote.getCreationDate();
 				String rightNowString = rightNow.toString().replace(" ", "_"); 
@@ -481,21 +504,21 @@ public class DBMethods {
 			Channel channel=session.openChannel("sftp");
 			channel.connect();
 			ChannelSftp c=(ChannelSftp)channel;
-					c.cd("TeamThink");
-					String filePath = context.getFilesDir().getPath().toString() + "/login.csv";					
-					FileOutputStream fos = new FileOutputStream(filePath);
-					c.get("login.csv", fos);
-					OutputStreamWriter osw = new OutputStreamWriter(fos);
-					osw.write("\n");
-					osw.write(entry);
-					osw.flush();
-					osw.close();
-					fos.close();
-					c.put(filePath,"login.csv");
+			c.cd("TeamThink");
+			String filePath = context.getFilesDir().getPath().toString() + "/login.csv";					
+			FileOutputStream fos = new FileOutputStream(filePath);
+			c.get("login.csv", fos);
+			OutputStreamWriter osw = new OutputStreamWriter(fos);
+			osw.write("\n");
+			osw.write(entry);
+			osw.flush();
+			osw.close();
+			fos.close();
+			c.put(filePath,"login.csv");
 
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			}
+		}
 
 		return 1;
 	}
