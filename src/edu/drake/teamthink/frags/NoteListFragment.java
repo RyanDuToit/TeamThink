@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -142,6 +143,9 @@ public class NoteListFragment extends ListFragment {
 				e.printStackTrace();
 			}
 			return result;
+		}
+		@Override
+		protected void onPreExecute() {
 		}
 		// onPostExecute displays the results of the AsyncTask.
 		@Override

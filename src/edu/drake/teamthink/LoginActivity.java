@@ -1,11 +1,10 @@
 package edu.drake.teamthink;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import edu.drake.teamthink.db.DBMethods;
+import edu.drake.teamthink.splash.ThinkingFragment;
 
 public class LoginActivity extends Activity {
 
@@ -96,6 +96,17 @@ public class LoginActivity extends Activity {
 				return "";
 			}
 		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			/*FragmentTransaction fm = getFragmentManager().beginTransaction();
+			ThinkingFragment thinking = new ThinkingFragment();
+			fm.add(R.id.left_container, thinking);
+			fm.addToBackStack(null);
+			fm.commit();*/
+		}
+		
 		@Override
 		protected void onPostExecute(String result) { //result = UserName
 			if (!result.equals("")) {	
@@ -117,7 +128,6 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 
 				startActivity(intent);
 				finish(); // closes the login activity; when the user presses back from the Notes activity, the app closes to the home screen

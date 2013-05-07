@@ -3,45 +3,37 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-    
+
     <EditText
-        android:id="@+id/editTextKeywordsToBlock"
-        android:hint="Enter Team Name"
+        android:id="@+id/teamNameEdit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:hint="What\'s your team name?" >
 
         <requestFocus />
     </EditText>
 
     <LinearLayout
-                  
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCreate"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            
-            android:layout_marginTop="10dp">
-                  
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Save" />
 
-     <Button
-         android:id="@+id/buttonSave"
-         android:layout_marginTop="15dp"
-         android:layout_weight="1"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:text="Save" 
-         />
-     
-      <Button
-         android:id="@+id/buttonCancel"
-         android:layout_marginTop="15dp"
-         android:layout_weight="1"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:text="Cancel" 
-         />
-    
-     </LinearLayout>
-    
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Cancel" />
+    </LinearLayout>
 
 </LinearLayout>

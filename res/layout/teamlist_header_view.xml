@@ -9,10 +9,13 @@
     android:background="?android:attr/activatedBackgroundIndicator">
     
     <TextView
-        android:id="@+id/team"
+        android:id="@+id/add_new_team"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:paddingLeft="26dp" />
+        android:drawableLeft="@drawable/new_team_plus"
+        android:paddingLeft="6dp"
+        android:textColor="#999999"
+        android:text=" Create New Team" />
 
 </LinearLayout>

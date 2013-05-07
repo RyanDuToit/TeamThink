@@ -3,6 +3,7 @@ package edu.drake.teamthink;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
@@ -10,8 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import edu.drake.teamthink.frags.NoteDetailFragment;
@@ -39,12 +43,12 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			transaction.add(R.id.right_container, noteList);
 			System.out.println("detail should be added...");
 		}
-		
+
 		transaction.commit();
 
 		TextView container_header = (TextView) findViewById(R.id.header_text);
-		container_header.setText("Your Teams");
-		
+		container_header.setText("Teams");
+
 		Spinner spinner = (Spinner) findViewById(R.id.sort_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort_list, android.R.layout.simple_spinner_item);
@@ -130,29 +134,29 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 			}
 		} catch (ClassCastException e) {
 			// note list is in right container
-			
+
 			// update header text
 			TextView container_header = (TextView) findViewById(R.id.header_text);
 			container_header.setText("Thoughts");
-			
+
 			// create or grab fragments
 			NoteListFragment list = new NoteListFragment();
 			NoteDetailFragment detail = new NoteDetailFragment();
-			
+
 			NoteListFragment oldList = (NoteListFragment) getFragmentManager().findFragmentById(R.id.right_container);
 			list.setCurrentTeam(oldList.getCurrentTeam());
-			
+
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-			
+
 			// replace containers with new fragments
 			transaction.replace(R.id.left_container, list);
 			transaction.replace(R.id.right_container, detail);
 			transaction.addToBackStack(null);
 			transaction.commit();
 			getFragmentManager().executePendingTransactions();
-			
+
 			System.out.println("Transaction completed");
-			
+
 			try {
 				detail.updateDetail(note);
 			} catch (NotFoundException nf) {
@@ -163,6 +167,40 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		}
 
 
+	}
+
+	public void onCreateTeam() {
+		final Dialog dialog = new Dialog(this);
+
+		dialog.setContentView(R.layout.dialog_createteam);
+		dialog.setTitle("Create a new team");
+
+		final EditText teamNameEdit = (EditText) dialog.findViewById(R.id.teamNameEdit);
+		Button btnCreate = (Button) dialog.findViewById(R.id.buttonCreate);
+		btnCreate.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick (View v) {
+				TeamListFragment teamList = (TeamListFragment) getFragmentManager().findFragmentById(R.id.left_container);
+				String teamName = teamNameEdit.getText().toString();
+				if (teamName.equalsIgnoreCase("")) {
+					// do nothing because they haven't entered anything... TODO: Toast here
+				} else {
+					teamList.teamNameEntered(teamName);
+					dialog.dismiss();
+				}
+			}
+		});
+		Button btnCancel=(Button)dialog.findViewById(R.id.buttonCancel);
+		btnCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick (View v) {
+				dialog.cancel();
+			}
+		});
+		dialog.show();
+
+
+		
 	}
 
 	public void onTeamSelected(String team) {
@@ -181,5 +219,4 @@ public class NoteActivity extends Activity implements NoteListFragment.OnNoteSel
 		Intent intent = new Intent(view.getContext(), NewNoteActivity.class); //when clicked, pull up an instance of the note screen activity
 		startActivity(intent);
 	}
-
 }
