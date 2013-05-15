@@ -64,14 +64,20 @@ public class TeamListFragment extends ListFragment {
 			DownloadTeams downloader = new DownloadTeams();
 			downloader.execute(1);
 			listView.setSelector(R.drawable.listitem_selector);
-			listView.addHeaderView(header);
 		}
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		System.out.println(listView.getHeaderViewsCount() + " header views at onStart"); 
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE); //allow only one selection
+	}
+	
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		setListAdapter(null);
 	}
 	
 	public void teamNameEntered(String teamName) {
@@ -123,6 +129,9 @@ public class TeamListFragment extends ListFragment {
 		@Override
 		protected void onPostExecute(ArrayList<String> result) {
 			TeamListBaseAdapter adapt = new TeamListBaseAdapter(context, teams);
+			if (listView.getAdapter() == null) { 
+				listView.addHeaderView(header); 
+			}
 			setListAdapter(adapt);
 		}
 	}

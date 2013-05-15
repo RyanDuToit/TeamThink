@@ -20,6 +20,7 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingRight="60dp"
         android:layout_below="@id/author"
         android:textSize="16sp" />
 
@@ -29,19 +30,31 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/content"
         android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/votes"
-        android:layout_width="wrap_content"
-        android:minWidth="52dp"
+	<ImageView 
+	    android:id="@+id/bulb"
+	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+	    android:adjustViewBounds="true"
+	    android:contentDescription="Lightbulb Icon"
+	    android:src="@drawable/list_view_bulb_icon"
+	    android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/list_view_bulb_icon"
         android:paddingBottom="10dip"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:paddingTop="10dip"
-        android:textSize="40sp" />
+	    />
+    <TextView
+        android:id="@+id/votes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="14dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="25dip"
+        android:paddingTop="6dip"
+        android:textSize="40sp"
+        android:textColor="#5e5e5e" />
 
 </RelativeLayout>

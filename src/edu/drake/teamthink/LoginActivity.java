@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +19,7 @@ import edu.drake.teamthink.db.DBMethods;
 import edu.drake.teamthink.splash.ThinkingFragment;
 
 public class LoginActivity extends Activity {
-
+	Dialog dialog;
 	Context context;
 	boolean inLogin = false;
 	View myView;
@@ -27,6 +28,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		context = this.getApplicationContext();
+		dialog = new Dialog(this);
 	}
 
 
@@ -100,11 +102,10 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			/*FragmentTransaction fm = getFragmentManager().beginTransaction();
-			ThinkingFragment thinking = new ThinkingFragment();
-			fm.add(R.id.left_container, thinking);
-			fm.addToBackStack(null);
-			fm.commit();*/
+
+			dialog.setContentView(R.layout.dialog_thinking);
+			dialog.setTitle("Put your thinking cap on...");
+			dialog.show();
 		}
 		
 		@Override
@@ -128,15 +129,16 @@ public class LoginActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				startActivity(intent);
 				finish(); // closes the login activity; when the user presses back from the Notes activity, the app closes to the home screen
+				dialog.dismiss();
 			}
 			else{
 				CharSequence text = "Invalid email or password";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
+				dialog.dismiss();
 			}
 		}
 	}
