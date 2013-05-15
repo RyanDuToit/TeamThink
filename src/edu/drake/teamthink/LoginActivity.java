@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import edu.drake.teamthink.db.DBMethods;
-import edu.drake.teamthink.splash.ThinkingFragment;
 
 public class LoginActivity extends Activity {
 	Dialog dialog;

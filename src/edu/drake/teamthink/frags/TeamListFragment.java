@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+import edu.drake.teamthink.NoteActivity;
 import edu.drake.teamthink.R;
 import edu.drake.teamthink.db.DBMethods;
 
@@ -22,7 +24,8 @@ public class TeamListFragment extends ListFragment {
 	private ListView listView;
 	private View header;
 	Context context;
-
+	NoteActivity noteActivity;
+	
 	public interface OnTeamSelectedListener {
 		/** Called by NoteListFragment when a list item is selected (see NoteActivity) */
 		public void onTeamSelected(String team);
@@ -35,6 +38,7 @@ public class TeamListFragment extends ListFragment {
 		// make sure the container activity has implemented the callback interface, else throw exception
 		try {
 			callback = (OnTeamSelectedListener) activity;
+			noteActivity = (NoteActivity) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnTeamSelectedListener");
 		}
@@ -65,6 +69,7 @@ public class TeamListFragment extends ListFragment {
 			downloader.execute(1);
 			listView.setSelector(R.drawable.listitem_selector);
 		}
+		noteActivity.teamlistLoaded();
 	}
 
 	@Override
